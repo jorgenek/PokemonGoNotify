@@ -31,7 +31,7 @@ def getPokemons():
     url = "https://www.pogovestfold.com/raw_data?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
     return requests.get(url).json()
 
-def notifyHitEmail(id, name, lat, lng, attack, defense, stamina):
+def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     print name + " was found!"
     msg = MIMEMultipart()
     msg['From'] = fromEmail
@@ -91,7 +91,7 @@ while True:
         for i in pokemonJson['pokemons']:
             if i['pokemon_name'].lower() in pokemons and i['encounter_id'] not in discoveredList:
                 discoveredList.append(i['encounter_id'])
-                notifyHitEmail(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'])
+                notifyDiscoveryEmail(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'])
 
     except ValueError:
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
