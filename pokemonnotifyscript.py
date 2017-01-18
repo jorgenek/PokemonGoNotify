@@ -64,16 +64,17 @@ def notifyHitEmail(id, name, lat, lng, attack, defense, stamina):
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
 no = set(['no','n'])
+defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops']
 
 choice = raw_input("Use default Pokemons? [Yes/No] ").lower()
 if choice in yes:
-   pokemons = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops']
+   pokemons = defaults
 elif choice in no:
    pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 else:
    print("Please respond with 'yes' or 'no'. Using default pokemon")
-   pokemons = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados']
-   
+   pokemons = defaults
+
 print pokemons
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
 password = getpass.getpass("Password: ")
