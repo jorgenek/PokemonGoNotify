@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import requests, time, smtplib, getpass
+import requests, time, smtplib, getpass, datetime
 
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
@@ -32,7 +32,7 @@ def getPokemons():
     return requests.get(url).json()
 
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
-    print name + " was found!"
+    print datetime.datetime.now()
     msg = MIMEMultipart()
     msg['From'] = fromEmail
     msg['To'] = toEmail
