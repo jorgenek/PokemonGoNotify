@@ -32,6 +32,7 @@ def getPokemons():
     return requests.get(url).json()
 
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
+    name = name.upper()
     print datetime.datetime.now()
     msg = MIMEMultipart()
     msg['From'] = fromEmail
@@ -64,7 +65,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
 no = set(['no','n'])
-defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops']
+defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl']
 
 choice = raw_input("Use default Pokemons? [Yes/No] ").lower()
 if choice in yes:
