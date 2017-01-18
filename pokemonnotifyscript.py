@@ -68,12 +68,12 @@ defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados'
 
 choice = raw_input("Use default Pokemons? [Yes/No] ").lower()
 if choice in yes:
-   pokemons = defaults
+    pokemons = defaults
 elif choice in no:
-   pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
+    pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 else:
-   print("Please respond with 'yes' or 'no'. Using default pokemon")
-   pokemons = defaults
+    pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
+
 
 print pokemons
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
