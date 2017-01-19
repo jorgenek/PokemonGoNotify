@@ -21,7 +21,16 @@ def addMailEnding(mail):
     else:
         return mail
 
+def setZerotoNone(value):
+    if value == 0:
+        return None
+    else:
+        return value
+
 def sumIV(attack, defense, stamina):
+    attack = setNonetoZero(attack)
+    defense = setNonetoZero(defense)
+    stamina = setNonetoZero(stamina)
     return attack + defense + stamina
 
 def formatPokemonsToList(string):
@@ -54,20 +63,12 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Stamina: {stamina}
     """.format(name=name, attack=attack, defense=defense, stamina=stamina) + bcolors.ENDC
 
-    attack = setNonetoZero(attack)
-    defense = setNonetoZero(defense)
-    stamina = setNonetoZero(stamina)
-
     if name.lower() == "chansey" or sumIV(attack, defense, stamina) >= int(ivLvl):
         name = name.upper()
         msg = MIMEMultipart()
         msg['From'] = fromEmail
         msg['To'] = toEmail
         msg['Subject'] = "#" + str(id) + " " + name + " was found!"
-
-        attack = setZerotoNone(attack)
-        defense = setZerotoNone(defense)
-        stamina = setZerotoNone(stamina)
 
         body = """ {name} was found with:
         Attack: {attack}
