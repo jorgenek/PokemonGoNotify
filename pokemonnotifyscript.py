@@ -43,7 +43,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Stamina: {stamina}
     """.format(name=name, attack=attack, defense=defense, stamina=stamina) + bcolors.ENDC
 
-    if name.lower() != "chansey" && sumIV(attack, defense, stamina) >= 30
+    if name.lower() != "chansey" and sumIV(attack, defense, stamina) >= ivLvl
         name = name.upper()
         msg = MIMEMultipart()
         msg['From'] = fromEmail
@@ -70,9 +70,9 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
 no = set(['no','n'])
-defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl']
+defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl', 'hitmonlee', 'hitmonchan', 'lickitung', 'tangela']
 print defaults
-choice = raw_input("Use default Pokemons? [Yes/No] ").lower()
+choice = raw_input("Use the default " + len(defaults) + " Pokemons? [Yes/No] ").lower()
 if choice in yes:
     pokemons = defaults
 elif choice in no:
@@ -80,8 +80,9 @@ elif choice in no:
 else:
     pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 
-
 print pokemons
+
+ivLvl = raw_input("How strong should the pokemon be? [0-45] ")
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
 password = getpass.getpass("Password: ")
 toEmail = addMailEnding(raw_input("Recieving email account: "))
