@@ -77,9 +77,13 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Attack: {attack}
     Defense: {defense}
     Stamina: {stamina}
-    """.format(name=name, attack=attack, defense=defense, stamina=stamina) + bcolors.ENDC
+    Nearby: {nearby}
+    """.format(name=name, attack=attack, defense=defense, nearby=pokemonNearby, stamina=stamina) + bcolors.ENDC
+    nameChansey = name.lower() == "chansey"
+    pokemonIV = sumIV(attack, defense, stamina) >= int(ivLvl)
+    pokemonNearby = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng)) <= float(distanceToPokemon)
 
-    if name.lower() == "chansey" or sumIV(attack, defense, stamina) >= int(ivLvl) or haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng)) <= float(distanceToPokemon):
+    if nameChansey or pokemonIV or pokemonNearby:
         name = name.upper()
         msg = MIMEMultipart()
         msg['From'] = fromEmail
@@ -90,8 +94,9 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
         Attack: {attack}
         Defense: {defense}
         Stamina: {stamina}
+        Nearby: {nearby}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(name=name, attack=attack, defense=defense, stamina=stamina, lat=lat, lng=lng)
+        """.format(name=name, attack=attack, defense=defense, nearby=pokemonNearby, stamina=stamina, lat=lat, lng=lng)
         msg.attach(MIMEText(body, 'plain'))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
