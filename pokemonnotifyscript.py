@@ -21,6 +21,9 @@ def addMailEnding(mail):
     else:
         return mail
 
+def sumIV(attack, defense, stamina):
+    return attack + defense + stamina
+
 def formatPokemonsToList(string):
     string = string.split(',')
     string = map(str.strip, string)
@@ -32,20 +35,7 @@ def getPokemons():
     return requests.get(url).json()
 
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
-    name = name.upper()
     print datetime.datetime.now()
-    msg = MIMEMultipart()
-    msg['From'] = fromEmail
-    msg['To'] = toEmail
-    msg['Subject'] = "#" + str(id) + " " + name + " was found!"
-
-    body = """ {name} was found with:
-    Attack: {attack}
-    Defense: {defense}
-    Stamina: {stamina}
-    http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-    """.format(name=name, attack=attack, defense=defense, stamina=stamina, lat=lat, lng=lng)
-    msg.attach(MIMEText(body, 'plain'))
 
     print bcolors.OKGREEN + """ {name} was found with:
     Attack: {attack}
@@ -53,20 +43,35 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Stamina: {stamina}
     """.format(name=name, attack=attack, defense=defense, stamina=stamina) + bcolors.ENDC
 
-    print bcolors.HEADER + "Sending email" + bcolors.ENDC
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(fromEmail, password)
-    text = msg.as_string()
-    server.sendmail(fromEmail, toEmail, text)
-    server.quit()
+    if name.lower() != "chansey" && sumIV(attack, defense, stamina) >= 30
+        name = name.upper()
+        msg = MIMEMultipart()
+        msg['From'] = fromEmail
+        msg['To'] = toEmail
+        msg['Subject'] = "#" + str(id) + " " + name + " was found!"
+
+        body = """ {name} was found with:
+        Attack: {attack}
+        Defense: {defense}
+        Stamina: {stamina}
+        http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
+        """.format(name=name, attack=attack, defense=defense, stamina=stamina, lat=lat, lng=lng)
+        msg.attach(MIMEText(body, 'plain'))
+
+        print bcolors.HEADER + "Sending email" + bcolors.ENDC
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(fromEmail, password)
+        text = msg.as_string()
+        server.sendmail(fromEmail, toEmail, text)
+        server.quit()
 
 
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
 no = set(['no','n'])
 defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl']
-
+print defaults
 choice = raw_input("Use default Pokemons? [Yes/No] ").lower()
 if choice in yes:
     pokemons = defaults
