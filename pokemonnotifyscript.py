@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import requests, time, smtplib, getpass, datetime
+import requests, time, smtplib, getpass, time
 
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
@@ -56,7 +56,7 @@ def setNonetoZero(value):
         return value
 
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
-    print datetime.datetime.now()
+    print time.strftime("%d. %b %Y %H:%M:%S")
     print bcolors.OKGREEN + """ {name} was found with:
     Attack: {attack}
     Defense: {defense}
