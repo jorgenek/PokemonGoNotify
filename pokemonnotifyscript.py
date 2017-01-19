@@ -140,7 +140,7 @@ if latAnswear == "":
 if lngAnswear == "":
     lngAnswear = yourlng
 
-ivLvl = raw_input("How strong should the pokemon be for sending email? [0-45] ")
+ivLvl = raw_input("How strong should the pokemon be before sending email? [0-45] ")
 distanceToPokemon = raw_input("How near should the pokemon be before you send an email? (km) ")
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
 password = getpass.getpass("Password: ")
