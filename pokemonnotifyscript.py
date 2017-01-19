@@ -71,18 +71,36 @@ def setNonetoZero(value):
     else:
         return value
 
-def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
+def getPokemonTypes(typeList):
+    if len(typeList) == 1:
+        return typeList[0]['type']
+    elif len(typeList) > 1:
+        types = typeList[0]['type']
+        typeList.pop(0)
+        for t in typeList:
+            types = types + ", " + t['type']
+            return types
+    else:
+        return None
+
+def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, types):
     nameChansey = name.lower() == "chansey"
     pokemonIV = sumIV(attack, defense, stamina) >= int(ivLvl)
-    pokemonNearby = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng)) <= float(distanceToPokemon)
+    pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
+    pokemonNearby = pokemonDistance <= float(distanceToPokemon)
+    pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
+    pokemonTypes = getPokemonTypes(types)
 
     print time.strftime("%d. %b %Y %H:%M:%S")
-    print bcolors.OKGREEN + """ {name} was found with:
+    print bcolors.OKGREEN + """ {name} was discovered with:
+    Types: {types}
+    Rarity: {rarity}
     Attack: {attack}
     Defense: {defense}
     Stamina: {stamina}
     Nearby: {nearby}
-    """.format(name=name, attack=attack, defense=defense, nearby=pokemonNearby, stamina=stamina) + bcolors.ENDC
+    Distance: {distance}
+    """.format(name=name, types=pokemonTypes, rarity=rarity, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance) + bcolors.ENDC
 
     if nameChansey or pokemonIV or pokemonNearby:
         name = name.upper()
@@ -91,13 +109,18 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
         msg['To'] = toEmail
         msg['Subject'] = "#" + str(id) + " " + name + " was found!"
 
-        body = """ {name} was found with:
+        body = """ {name} was discovered with:
+        Types: {types}
+        Rarity: {rarity}
+
         Attack: {attack}
         Defense: {defense}
         Stamina: {stamina}
+
         Nearby: {nearby}
+        Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(name=name, attack=attack, defense=defense, nearby=pokemonNearby, stamina=stamina, lat=lat, lng=lng)
+        """.format(name=name, types=pokemonTypes, rarity=rarity, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng)
         msg.attach(MIMEText(body, 'plain'))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
@@ -126,8 +149,10 @@ print defaults
 
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
 if choice in yes:
+    choseDefault = True
     pokemons = defaults
 else:
+    choseDefault = False
     pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 
 print pokemons
@@ -157,8 +182,7 @@ while True:
         for i in pokemonJson['pokemons']:
             if i['pokemon_name'].lower() in pokemons and i['encounter_id'] not in discoveredList:
                 discoveredList.append(i['encounter_id'])
-                notifyDiscoveryEmail(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'])
-
+                notifyDiscoveryEmail(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'], i['pokemon_rarity'], i['pokemon_types'])
     except ValueError:
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
