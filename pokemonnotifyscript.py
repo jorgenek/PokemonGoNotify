@@ -72,6 +72,10 @@ def setNonetoZero(value):
         return value
 
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
+    nameChansey = name.lower() == "chansey"
+    pokemonIV = sumIV(attack, defense, stamina) >= int(ivLvl)
+    pokemonNearby = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng)) <= float(distanceToPokemon)
+
     print time.strftime("%d. %b %Y %H:%M:%S")
     print bcolors.OKGREEN + """ {name} was found with:
     Attack: {attack}
@@ -79,10 +83,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Stamina: {stamina}
     Nearby: {nearby}
     """.format(name=name, attack=attack, defense=defense, nearby=pokemonNearby, stamina=stamina) + bcolors.ENDC
-    nameChansey = name.lower() == "chansey"
-    pokemonIV = sumIV(attack, defense, stamina) >= int(ivLvl)
-    pokemonNearby = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng)) <= float(distanceToPokemon)
-
+    
     if nameChansey or pokemonIV or pokemonNearby:
         name = name.upper()
         msg = MIMEMultipart()
