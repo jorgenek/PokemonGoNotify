@@ -1,9 +1,25 @@
 #!/usr/bin/env python
 
-import requests, time, smtplib, getpass, time
+import requests, time, smtplib, getpass, time, json
 
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
+from math import radians, cos, sin, asin, sqrt
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    km = 6367 * c
+    return km
 
 class bcolors:
     HEADER = '\033[95m'
@@ -63,7 +79,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Stamina: {stamina}
     """.format(name=name, attack=attack, defense=defense, stamina=stamina) + bcolors.ENDC
 
-    if name.lower() == "chansey" or sumIV(attack, defense, stamina) >= int(ivLvl):
+    if name.lower() == "chansey" or sumIV(attack, defense, stamina) >= int(ivLvl) or haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng)) <= float(distanceToPokemon):
         name = name.upper()
         msg = MIMEMultipart()
         msg['From'] = fromEmail
@@ -90,8 +106,17 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
 
+send_url = 'http://freegeoip.net/json'
+r = requests.get(send_url)
+j = json.loads(r.text)
+yourlat = j['latitude']
+yourlng = j['longitude']
+print "Your latidue: " + str(yourlat)
+print "Your longitude: " + str(yourlng)
+print "Default pokemons: "
 defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl', 'hitmonlee', 'hitmonchan', 'lickitung', 'tangela']
 print defaults
+
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
 if choice in yes:
     pokemons = defaults
@@ -99,8 +124,17 @@ else:
     pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 
 print pokemons
+latAnswear = raw_input("What is your current latitude location? (Press enter to use location based on your IP-address) ");
+lngAnswear = raw_input("What is your current longitude location? (Press enter to use location based on your IP-address) ");
 
-ivLvl = raw_input("How strong should the pokemon be? [0-45] ")
+if latAnswear == "":
+    latAnswear = yourlat
+
+if lngAnswear == "":
+    lngAnswear = yourlng
+
+ivLvl = raw_input("How strong should the pokemon be for sending email? [0-45] ")
+distanceToPokemon = raw_input("How near should the pokemon be before you send an email? (km) ")
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
 password = getpass.getpass("Password: ")
 toEmail = addMailEnding(raw_input("Recieving email account: "))
