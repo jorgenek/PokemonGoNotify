@@ -13,3 +13,4 @@ En som har ukjente verdier vil få default 0 som sum.
 4. Passordet til den kontoen så tjenesten får lov til å sende mail. 
 5. Mottakers epost-adresse. Trenger ikke å være gmail, men kan også være samme som avsender.
 
+Ettersom jeg på jakt etter Chansey så vil den sendes på mail uansett IV verdier
