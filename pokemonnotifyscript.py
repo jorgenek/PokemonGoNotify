@@ -34,21 +34,40 @@ def getPokemons():
     url = "https://www.pogovestfold.com/raw_data?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
     return requests.get(url).json()
 
+def setZerotoNone(value):
+    if value == 0:
+        return None
+    else:
+        return value
+
+def setNonetoZero(value):
+    if value is None:
+        return 0
+    else:
+        return value
+
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     print datetime.datetime.now()
-
     print bcolors.OKGREEN + """ {name} was found with:
     Attack: {attack}
     Defense: {defense}
     Stamina: {stamina}
     """.format(name=name, attack=attack, defense=defense, stamina=stamina) + bcolors.ENDC
 
-    if name.lower() != "chansey" and sumIV(attack, defense, stamina) >= ivLvl
+    attack = setNonetoZero(attack)
+    defense = setNonetoZero(defense)
+    stamina = setNonetoZero(stamina)
+
+    if name.lower() == "chansey" or sumIV(attack, defense, stamina) >= int(ivLvl):
         name = name.upper()
         msg = MIMEMultipart()
         msg['From'] = fromEmail
         msg['To'] = toEmail
         msg['Subject'] = "#" + str(id) + " " + name + " was found!"
+
+        attack = setZerotoNone(attack)
+        defense = setZerotoNone(defense)
+        stamina = setZerotoNone(stamina)
 
         body = """ {name} was found with:
         Attack: {attack}
@@ -69,14 +88,12 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
 
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
-no = set(['no','n'])
+
 defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl', 'hitmonlee', 'hitmonchan', 'lickitung', 'tangela']
 print defaults
-choice = raw_input("Use the default " + len(defaults) + " Pokemons? [Yes/No] ").lower()
+choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
 if choice in yes:
     pokemons = defaults
-elif choice in no:
-    pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 else:
     pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 
