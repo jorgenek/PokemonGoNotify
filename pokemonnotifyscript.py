@@ -83,7 +83,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina):
     Stamina: {stamina}
     Nearby: {nearby}
     """.format(name=name, attack=attack, defense=defense, nearby=pokemonNearby, stamina=stamina) + bcolors.ENDC
-    
+
     if nameChansey or pokemonIV or pokemonNearby:
         name = name.upper()
         msg = MIMEMultipart()
@@ -117,7 +117,8 @@ r = requests.get(send_url)
 j = json.loads(r.text)
 yourlat = j['latitude']
 yourlng = j['longitude']
-print "Your latidue: " + str(yourlat)
+print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
+print "Your latitude: " + str(yourlat)
 print "Your longitude: " + str(yourlng)
 print "Default pokemons: "
 defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl', 'hitmonlee', 'hitmonchan', 'lickitung', 'tangela']
