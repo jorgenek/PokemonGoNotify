@@ -156,8 +156,8 @@ else:
     pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ',': "))
 
 print pokemons
-latAnswear = raw_input("What is your current latitude location? (Press enter to use location based on your IP-address) ");
-lngAnswear = raw_input("What is your current longitude location? (Press enter to use location based on your IP-address) ");
+latAnswear = raw_input("What is your current latitude location? (Press enter to use location based on your IP-address) ").replace(',', '.');
+lngAnswear = raw_input("What is your current longitude location? (Press enter to use location based on your IP-address) ").replace(',', '.');
 
 if latAnswear == "":
     latAnswear = yourlat
@@ -165,8 +165,8 @@ if latAnswear == "":
 if lngAnswear == "":
     lngAnswear = yourlng
 
-ivLvl = raw_input("How strong should the pokemon be before sending email? [0-45] ")
-distanceToPokemon = raw_input("How near should the pokemon be before you send an email? (km) ")
+ivLvl = int(float(raw_input("How strong should the pokemon be before sending email? [0-45] ").replace(',', '.')))
+distanceToPokemon = raw_input("How near should the pokemon be before you send an email? (km) ").replace(',', '.')
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
 password = getpass.getpass("Password: ")
 toEmail = addMailEnding(raw_input("Recieving email account: "))
