@@ -103,13 +103,21 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, t
     """.format(name=name, types=pokemonTypes, rarity=rarity, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance) + bcolors.ENDC
 
     if nameChansey or pokemonIV or pokemonNearby:
-        name = name.upper()
+        if pokemonIV and pokemonNearby:
+            pokemonDescription = "Strong and nearby"
+        elif pokemonIV and not pokemonNearby:
+            pokemonDescription = "Strong"
+        elif not pokemonIV and pokemonNearby:
+            pokemonDescription = "Nearby"
+        else:
+            pokemonDescription = ""
+
         msg = MIMEMultipart()
         msg['From'] = fromEmail
         msg['To'] = toEmail
-        msg['Subject'] = "#" + str(id) + " " + name + " was found!"
+        msg['Subject'] = "#" + str(id) + " " + name.upper() + " was found!"
 
-        body = """ {name} was discovered with:
+        body = """ {description} {name} was discovered with:
         Types: {types}
         Rarity: {rarity}
 
@@ -120,7 +128,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, t
         Nearby: {nearby}
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(name=name, types=pokemonTypes, rarity=rarity, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng)
+        """.format(description=pokemonDescription, name=name, types=pokemonTypes, rarity=rarity, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng)
         msg.attach(MIMEText(body, 'plain'))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
@@ -130,7 +138,6 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, t
         text = msg.as_string()
         server.sendmail(fromEmail, toEmail, text)
         server.quit()
-
 
 # raw_input returns the empty string for "enter"
 yes = set(['yes','y', 'ye', ''])
