@@ -84,7 +84,6 @@ def getPokemonTypes(typeList):
         return None
 
 def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, types):
-    nameChansey = name.lower() == "chansey"
     pokemonIV = sumIV(attack, defense, stamina) >= int(ivLvl)
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonNearby = pokemonDistance <= float(distanceToPokemon)
@@ -102,7 +101,7 @@ def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, t
     Distance: {distance}
     """.format(name=name, types=pokemonTypes, rarity=rarity, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance) + bcolors.ENDC
 
-    if nameChansey or pokemonIV or pokemonNearby:
+    if pokemonIV or pokemonNearby:
         if pokemonIV and pokemonNearby:
             pokemonDescription = "Strong and nearby"
         elif pokemonIV and not pokemonNearby:
@@ -151,7 +150,7 @@ print bcolors.OKBLUE + "--------------------------------------------------------
 print "Your latitude: " + str(yourlat)
 print "Your longitude: " + str(yourlng)
 print "Default pokemons: "
-defaults = ['lapras', 'dragonite', 'chansey', 'exeggutor', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl', 'hitmonlee', 'hitmonchan', 'lickitung', 'tangela']
+defaults = ['lapras', 'dragonite', 'chansey', 'snorlax', 'gyarados', 'porygon', 'vaporeon', 'rhydon', 'omastar', 'kabutops', 'aerodactyl', 'hitmonlee', 'hitmonchan', 'lickitung', 'tangela']
 print defaults
 
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
