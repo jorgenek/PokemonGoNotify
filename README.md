@@ -5,7 +5,7 @@ Dette er et lite script jeg har laget som baserer seg på www.pogovestfold.com i
 Før tjenesten kan sende mail fra din gmail-konto så må du tillate den å sende mail:
 https://www.google.com/settings/security/lesssecureapps
 
-Nettside som gir deg dine Latitude og Longitude coordinater:
+Nettside som gir deg dine Latitude og Longitude koordinater:
 http://www.latlong.net/
 
 Scriptet spør etter:
@@ -16,5 +16,3 @@ Scriptet spør etter:
 4. En gmail-konto som mailen skal sendes fra. Den legger til "@gmail.com" automagisk hvis du ikke har '@' i strengen.
 5. Passordet til den kontoen så tjenesten får lov til å sende mail. 
 6. Mottakers epost-adresse. Trenger ikke å være gmail, men kan også være samme som avsender.  Den legger til "@gmail.com" automagisk hvis du ikke har '@' i strengen.
-
-Ettersom jeg på jakt etter Chansey så vil den sendes på mail uansett IV-verdier og lokasjon.
