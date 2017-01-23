@@ -10,7 +10,7 @@ http://www.latlong.net/
 
 Scriptet spør etter:
 1. Om du vil benytte deg av en default liste med sjeldne pokemons eller om du ønsker å skrive dem inn selv (separert med komma)
-2. Lokasjonen din i Latitude og Longitude. Hvis du skriver tomme strenger så bruker scriptet lokasjonen til din IP-addresse til å avgjøre hvor befinner deg.
+2. Lokasjonen din i Latitude og Longitude. Hvis du kun trykker Enter så bruker scriptet din IP-addresse til å avgjøre hvor du befinner deg.
 2. Hvor bra pokemonen skal være før den sendes på mail. Tallet er summen av verdiene til attack, defense og stamina. 45 er en perfekt pokemon og 0 vil sende på alle. En som har ukjente verdier vil få default 0 som sum.
 3. Hvor nærme en pokemon skal være før det sendes en mail i kilometer.
 4. En gmail-konto som mailen skal sendes fra. Den legger til "@gmail.com" automagisk hvis du ikke har '@' i strengen.
