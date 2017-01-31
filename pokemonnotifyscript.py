@@ -76,7 +76,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     perfect = False
     if iv == 45 :
         perfect = True
-    iv = "{0:.1f}".format((float(iv) / 45) * 100) + "%"
+    iv = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonNearby = pokemonDistance <= float(distanceAnswear)
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
@@ -113,13 +113,13 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         msg = MIMEMultipart()
         msg['From'] = fromEmail
         msg['To'] = toEmail
-        msg['Subject'] = "#" + str(id) + " " + name.upper() + " " + iv + " "+ " IV" + " was found!"
+        msg['Subject'] = "#" + str(id) + " " + name.upper() + " was found!"
 
         body = """ {description} {name} was discovered with:
+        IV: {iv}
         Attack: {attack}
         Defense: {defense}
         Stamina: {stamina}
-        IV: {iv}
         Types: {types}
         Rarity: {rarity}
         Nearby: {nearby}
