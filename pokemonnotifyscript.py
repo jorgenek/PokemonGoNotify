@@ -74,7 +74,7 @@ def getPokemonTypes(typeList):
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, iv):
     pokemonIV = iv >= ivLvl
     perfect = False
-    if iv == 45 :
+    if iv == 45:
         perfect = True
     iv = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
@@ -97,8 +97,10 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     """.format(name=name, types=pokemonTypes, rarity=rarity, iv=iv, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
 
     strengthText = "Strong"
-    if perfect :
+    if perfect:
         strengthText = "PERFECT"
+    elif iv > 42 and not perfect:
+        strengthText = "Very strong"
 
     if pokemonIV or pokemonNearby :
         if pokemonIV and pokemonNearby:
@@ -195,7 +197,7 @@ while True:
             stamina = int(setNoneToZero(i['individual_stamina']));
             iv = sumIV(attack, defense, stamina)
             if i['encounter_id'] not in discoveredList :
-                if i['pokemon_name'].lower() in pokemons or iv == 45 :
+                if i['pokemon_name'].lower() in pokemons or iv > 42 :
                     discoveredList.append(i['encounter_id'])
                     notifyDiscovery(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'], i['pokemon_rarity'], i['pokemon_types'], iv)
     except ValueError:
