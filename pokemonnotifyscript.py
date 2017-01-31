@@ -73,10 +73,10 @@ def getPokemonTypes(typeList):
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, iv):
     pokemonIV = iv >= ivLvl
-    perfect = false
+    perfect = False
     if iv == 45 :
-        perfect = true;
-    iv = "{0:.2f}".format(iv / 45) * 100) + '%'
+        perfect = True
+    iv = "{0:.1f}".format((float(iv) / 45) * 100) + "%"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonNearby = pokemonDistance <= float(distanceAnswear)
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
@@ -94,11 +94,11 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, types=pokemonTypes, rarity=rarity,, iv=iv, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
+    """.format(name=name, types=pokemonTypes, rarity=rarity, iv=iv, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
 
     strengthText = "Strong"
     if perfect :
-        strengthText "PERFECT"
+        strengthText = "PERFECT"
 
     if pokemonIV or pokemonNearby :
         if pokemonIV and pokemonNearby:
@@ -113,15 +113,15 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         msg = MIMEMultipart()
         msg['From'] = fromEmail
         msg['To'] = toEmail
-        msg['Subject'] = "#" + str(id) + " " + name.upper() + " IV: " + iv +" was found!"
+        msg['Subject'] = "#" + str(id) + " " + name.upper() + " " + iv + " "+ " IV" + " was found!"
 
         body = """ {description} {name} was discovered with:
-        Types: {types}
-        Rarity: {rarity}
-        IV: {iv}
         Attack: {attack}
         Defense: {defense}
         Stamina: {stamina}
+        IV: {iv}
+        Types: {types}
+        Rarity: {rarity}
         Nearby: {nearby}
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
@@ -173,7 +173,7 @@ ivLvl = int(float(raw_input("How strong should the pokemon be before sending ema
 
 if ivLvl > 45 :
     ivLvl = 45
-else if ivLvl < 0:
+elif ivLvl < 0:
     ivLvl = 0
 
 distanceAnswear = raw_input("How near should the pokemon be before you send an email? (km) ").replace(',', '.')
@@ -190,10 +190,10 @@ while True:
         pokemonJson = getPokemons()
 
         for i in pokemonJson['pokemons']:
-            attack = setNoneToZero(i['individual_attack']);
-            defense = setNoneToZero(i['individual_defense']);
-            stamina = setNoneToZero(i['individual_stamina']);
-            iv = sumIV((int)attack, (int)defense, (int)stamina)
+            attack = int(setNoneToZero(i['individual_attack']));
+            defense = int(setNoneToZero(i['individual_defense']));
+            stamina = int(setNoneToZero(i['individual_stamina']));
+            iv = sumIV(attack, defense, stamina)
             if i['encounter_id'] not in discoveredList :
                 if i['pokemon_name'].lower() in pokemons or iv == 45 :
                     discoveredList.append(i['encounter_id'])
