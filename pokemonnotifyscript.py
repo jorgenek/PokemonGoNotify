@@ -102,7 +102,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     elif iv > 42 and not perfect:
         strengthText = "Very strong"
 
-    if pokemonIV or pokemonNearby :
+    if pokemonIV or pokemonNearby:
         if pokemonIV and pokemonNearby:
             pokemonDescription = strengthText + " and nearby"
         elif pokemonIV and not pokemonNearby:
