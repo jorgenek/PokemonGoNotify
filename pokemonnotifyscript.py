@@ -37,12 +37,6 @@ def addMailEnding(mail):
     else:
         return mail
 
-def setZeroToNone(value):
-    if value == 0:
-        return None
-    else:
-        return value
-
 def setNoneToZero(value):
     if value is None:
         return 0
@@ -77,15 +71,14 @@ def getPokemonTypes(typeList):
     else:
         return None
 
-def notifyDiscoveryEmail(id, name, lat, lng, attack, defense, stamina, rarity, types, iv):
-    pokemonIV = sumIV(attack, defense, stamina) >= ivLvl
+def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, iv):
+    pokemonIV = iv >= ivLvl
     perfect = false
     if iv == 45 :
         perfect = true;
-
     iv = "{0:.2f}".format(iv / 45) * 100) + '%'
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
-    pokemonNearby = pokemonDistance <= float(distanceToPokemon)
+    pokemonNearby = pokemonDistance <= float(distanceAnswear)
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     pokemonTypes = getPokemonTypes(types)
 
@@ -183,7 +176,7 @@ if ivLvl > 45 :
 else if ivLvl < 0:
     ivLvl = 0
 
-distanceToPokemon = raw_input("How near should the pokemon be before you send an email? (km) ").replace(',', '.')
+distanceAnswear = raw_input("How near should the pokemon be before you send an email? (km) ").replace(',', '.')
 fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
 password = getpass.getpass("Password: ")
 toEmail = addMailEnding(raw_input("Recieving email account: "))
@@ -204,7 +197,7 @@ while True:
             if i['encounter_id'] not in discoveredList :
                 if i['pokemon_name'].lower() in pokemons or iv == 45 :
                     discoveredList.append(i['encounter_id'])
-                    notifyDiscoveryEmail(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'], i['pokemon_rarity'], i['pokemon_types'], iv)
+                    notifyDiscovery(i['pokemon_id'], i['pokemon_name'], i['latitude'], i['longitude'], i['individual_attack'], i['individual_defense'], i['individual_stamina'], i['pokemon_rarity'], i['pokemon_types'], iv)
     except ValueError:
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
