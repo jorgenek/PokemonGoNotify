@@ -2,10 +2,10 @@
 
 Dette er et lite script jeg har laget som baserer seg på www.pogovestfold.com i Oslo som sender meg mail hvis en spesiell pokemon dukker opp.
 
-Før tjenesten kan sende mail fra din gmail-konto så må du tillate den å sende mail:
+Før tjenesten kan sende mail fra din gmail-konto så må du tillate den å sende mail. Det aktiverer du her:
 https://www.google.com/settings/security/lesssecureapps
 
-Nettside som gir deg dine Latitude og Longitude koordinater:
+Nettside som gir deg Latitude og Longitude koordinater:
 http://www.latlong.net/
 
 Scriptet spør etter:
