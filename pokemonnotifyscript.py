@@ -72,19 +72,28 @@ def getPokemonTypes(typeList):
         return None
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, iv):
-    pokemonIV = iv >= ivLvl
+    strongEnoughPokemon = iv >= ivLvl
     perfect = False
-    ivtemp = iv
+
     if iv == 45:
         perfect = True
-    iv = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
+
+    ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonNearby = pokemonDistance <= float(distanceAnswear)
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     pokemonTypes = getPokemonTypes(types)
 
+    strengthText = "Strong"
+    if perfect:
+        strengthText = "PERFECT"
+    elif iv > 42 and not perfect:
+        strengthText = "Very strong"
+    elif iv <= 15:
+        strengthText = "Weak"
+
     print time.strftime("%d. %b %Y %H:%M:%S")
-    print bcolors.OKGREEN + """ {name} was discovered with:
+    print bcolors.OKGREEN + """{description} {name} was discovered with:
     Types: {types}
     Rarity: {rarity}
     IV: {iv}
@@ -95,20 +104,14 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, types=pokemonTypes, rarity=rarity, iv=iv, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
+    """.format(description=strengthText, name=name, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
 
-    strengthText = "Strong"
-    if perfect:
-        strengthText = "PERFECT"
-    elif ivtemp > 42 and not perfect:
-        strengthText = "Very strong"
-
-    if pokemonIV or pokemonNearby:
-        if pokemonIV and pokemonNearby:
+    if strongEnoughPokemon or pokemonNearby:
+        if strongEnoughPokemon and pokemonNearby:
             pokemonDescription = strengthText + " and nearby"
-        elif pokemonIV and not pokemonNearby:
+        elif strongEnoughPokemon and not pokemonNearby:
             pokemonDescription = strengthText
-        elif not pokemonIV and pokemonNearby:
+        elif not strongEnoughPokemon and pokemonNearby:
             pokemonDescription = "Nearby"
         else:
             pokemonDescription = ""
@@ -128,7 +131,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         Nearby: {nearby}
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(description=pokemonDescription, name=name, types=pokemonTypes, rarity=rarity, iv=iv, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng)
+        """.format(description=pokemonDescription, name=name, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng)
         msg.attach(MIMEText(body, 'plain'))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
