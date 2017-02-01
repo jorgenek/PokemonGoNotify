@@ -84,16 +84,19 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     pokemonTypes = getPokemonTypes(types)
 
-    strengthText = "Strong"
+    strengthText = "Normal"
     if perfect:
         strengthText = "PERFECT"
     elif iv > 42 and not perfect:
         strengthText = "Very strong"
-    elif iv <= 15:
+    elif iv <= 42 and iv > 30:
+        strengthText = "Strong"
+    elif iv <= 22:
         strengthText = "Weak"
 
     print time.strftime("%d. %b %Y %H:%M:%S")
-    print bcolors.OKGREEN + """{description} {name} was discovered with:
+    print bcolors.OKGREEN + """{name} was discovered with:
+    Strength: {strength}
     Types: {types}
     Rarity: {rarity}
     IV: {iv}
@@ -104,7 +107,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(description=strengthText, name=name, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
+    """.format(name=name, strength=strengthText, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
 
     if strongEnoughPokemon or pokemonNearby:
         if strongEnoughPokemon and pokemonNearby:
