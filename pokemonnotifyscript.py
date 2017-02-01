@@ -74,6 +74,7 @@ def getPokemonTypes(typeList):
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, iv):
     pokemonIV = iv >= ivLvl
     perfect = False
+    ivtemp = iv
     if iv == 45:
         perfect = True
     iv = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
@@ -99,7 +100,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     strengthText = "Strong"
     if perfect:
         strengthText = "PERFECT"
-    elif iv > 42 and not perfect:
+    elif ivtemp > 42 and not perfect:
         strengthText = "Very strong"
 
     if pokemonIV or pokemonNearby:
