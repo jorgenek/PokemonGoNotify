@@ -6,6 +6,7 @@ moves = {
     '16': 'Dark Pulse(Dark) 45',
     '18': 'Sludge(Poison) 30',
     '21': 'Flame Wheel(Fire) 40',
+    '22': 'Megahorn(Bug) 80',
     '24': 'Flamethrower(Fire) 55',
     '30': 'Psybeam(Psychic) 40',
     '31': 'Earthquake(Ground) 100',
