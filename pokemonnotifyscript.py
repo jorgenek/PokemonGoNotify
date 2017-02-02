@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import requests, time, smtplib, getpass, time, json
-
+import requests, time, smtplib, getpass, json, datetime
 from moves import getMoveName
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
@@ -72,9 +71,10 @@ def getPokemonTypes(typeList):
     else:
         return None
 
-moveList = {"30": "Pound (25 / Normal / Crit: 0%)", "202": "Test2", "220": "Hei"}
+def convertTimestampToTime(timestamp):
+    return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S')
 
-def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, move1, move2, iv):
+def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, move1, move2, iv, disappear_time):
     strongEnoughPokemon = iv >= ivLvl
     perfect = False
 
@@ -107,12 +107,13 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     Move1: {move1}
     Move2: {move2}
     Rarity: {rarity}
+    Disappears: {disappear}
     Types: {types}
     Nearby: {nearby}
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, strength=strengthText, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, move1=move1, move2=move2, distance=pokemonDistance, lat=lat, lng=lng) + bcolors.ENDC
+    """.format(name=name, strength=strengthText, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, move1=move1, move2=move2, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time) + bcolors.ENDC
 
     if strongEnoughPokemon or pokemonNearby:
         if strongEnoughPokemon and pokemonNearby:
@@ -138,10 +139,11 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         Move2: {move2}
         Types: {types}
         Rarity: {rarity}
+        Disappears: {disappear}
         Nearby: {nearby}
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(description=pokemonDescription, name=name, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng)
+        """.format(description=pokemonDescription, name=name, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
         msg.attach(MIMEText(body, "plain"))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
@@ -212,10 +214,11 @@ while True:
             iv = sumIV(attack, defense, stamina)
             if i["encounter_id"] not in discoveredList :
                 if i["pokemon_name"].lower() in pokemons or iv > 42 :
+                    disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
                     discoveredList.append(i["encounter_id"])
-                    notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"], i["longitude"], i["individual_attack"], i["individual_defense"], i["individual_stamina"], i["pokemon_rarity"], i["pokemon_types"], move1, move2, iv)
+                    notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"], i["longitude"], i["individual_attack"], i["individual_defense"], i["individual_stamina"], i["pokemon_rarity"], i["pokemon_types"], move1, move2, iv, disappear_time)
     except ValueError:
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
