@@ -24,6 +24,7 @@ moves = {
     '60': 'Psyshock(Psychic) 40',
     '62': 'Ancient Power(Rock) 35',
     '63': 'Rock Tomb(Rock) 30',
+    '64': 'Rock Slide(Rock)	50',
     '70': 'Shadow Ball(Ghost) 45',
     '74': 'Iron Head(Steel) 30',
     '77': 'Thunder Punch(Electric) 40',
