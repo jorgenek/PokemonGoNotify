@@ -14,6 +14,7 @@ moves = {
     '35': 'Discharge(Electric) 35',
     '36': 'Flash Cannon(Steel) 60',
     '39': 'Ice Beam(Ice) 65',
+    '40': 'Blizzard(Ice) 100',
     '47': 'Petal Blizzard(Grass) 65',
     '49': 'Bug Buzz(Bug) 75',
     '51': 'Night Slash(Dark) 30',
