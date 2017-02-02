@@ -41,6 +41,7 @@ moves = {
     '100': 'X-Scissor(Bug) 35',
     '101': 'Flame Charge(Fire) 25',
     '102': 'Flame Burst(Fire) 30',
+    '103': 'Fire Blast(Fire) 100',
     '104': 'Brine(Water) 25',
     '105': 'Water Pulse(Water) 35',
     '107': 'Hydro Pump(Water) 90',
