@@ -19,6 +19,7 @@ moves = {
     '47': 'Petal Blizzard(Grass) 65',
     '49': 'Bug Buzz(Bug) 75',
     '51': 'Night Slash(Dark) 30',
+    '56': 'Low Sweep(Fighting) 30',
     '57': 'Aqua Jet(Water) 25',
     '58': 'Aqua Tail(Water) 45',
     '59': 'Seed Bomb(Grass) 40',
