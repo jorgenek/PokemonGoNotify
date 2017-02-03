@@ -78,6 +78,7 @@ moves = {
     '221': 'Tackle(Normal) 12',
     '222': 'Pound(Normal) 7',
     '224': 'Poison Jab(Poison) 12',
+    '225': 'Acid(Poison) 10',
     '226': 'Psycho Cut(Psychic) 7',
     '227': 'Rock Throw(Rock) 12',
     '229': 'Bullet Punch(Steel) 10',
