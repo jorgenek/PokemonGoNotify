@@ -53,6 +53,7 @@ moves = {
     '115': 'Fire Punch(Fire) 40',
     '116': 'Solar Beam(Grass) 120',
     '118': 'Power Whip(Grass) 70',
+    '123': 'Brick Break(Fighting) 30',
     '126': 'Horn Attack(Normal) 25',
     '127': 'Stomp(Normal) 30',
     '131': 'Body Slam(Normal) 40',
