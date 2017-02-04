@@ -5,6 +5,9 @@ from moves import getMoveName
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from math import radians, cos, sin, asin, sqrt
+from collections import Counter
+
+cnt = Counter()
 
 def haversine(lat1, lon1, lat2, lon2):
     """
@@ -147,12 +150,20 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         msg.attach(MIMEText(body, "plain"))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
+        print
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(fromEmail, password)
         text = msg.as_string()
         server.sendmail(fromEmail, toEmail, text)
         server.quit()
+
+    cnt[name] += 1
+    seenCount = len(discoveredList)
+    print "Discovered pokemons so far is: " + str(seenCount)
+    for key,value in sorted(cnt.iteritems()):
+        print key, value
+    print
 
 # raw_input returns the empty string for "enter"
 yes = set(["yes","y", "ye", ""])
