@@ -134,6 +134,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         msg["Subject"] = "#" + str(id) + " " + name.upper() + " was found!"
 
         body = """ {description} {name} was discovered with:
+        Strength: {strength}
         IV: {iv}
         Attack: {attack}
         Defense: {defense}
@@ -146,7 +147,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         Nearby: {nearby}
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(description=pokemonDescription, name=name, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
+        """.format(description=pokemonDescription, name=name, strength=strengthText, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
         msg.attach(MIMEText(body, "plain"))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
