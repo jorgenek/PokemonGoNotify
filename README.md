@@ -8,6 +8,12 @@ https://www.google.com/settings/security/lesssecureapps
 Nettside som gir deg Latitude og Longitude koordinater:
 http://www.latlong.net/
 
+For å kjøre scriptet så må du installere disse pakkene:
+- requests
+- pyOpenSSL
+- ndg-httpsclient
+- pyasn1
+
 Scriptet spør etter:
 
 1. Om du vil benytte deg av en default liste med sjeldne pokemons eller om du ønsker å skrive dem inn selv (separert med komma)
