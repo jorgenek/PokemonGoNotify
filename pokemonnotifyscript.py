@@ -225,7 +225,7 @@ while True:
             stamina = int(setNoneToZero(i["individual_stamina"]));
             iv = sumIV(attack, defense, stamina)
             if i["encounter_id"] not in discoveredList :
-                if i["pokemon_name"].lower() in pokemons or iv > 42 :
+                if i["pokemon_name"].lower() in pokemons or iv >= 44 :
                     disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
