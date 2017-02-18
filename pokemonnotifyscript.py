@@ -59,7 +59,7 @@ def formatPokemonsToList(string):
     return string
 
 def getPokemons():
-    url = "https://www.pogonorge.com/raw_data?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
+    url = "https://www.pogonorge.com/takkforbidraget/raw_data?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
     return requests.get(url).json()
 
 def getPokemonTypes(typeList):
@@ -178,7 +178,8 @@ print bcolors.OKBLUE + "--------------------------------------------------------
 print "Your latitude: " + str(yourlat)
 print "Your longitude: " + str(yourlng)
 print "Default pokemons: "
-defaults = ["lapras", "dragonite", "chansey", "snorlax", "gyarados", "porygon", "vaporeon", "rhydon", "omastar", "kabutops", "aerodactyl", "hitmonlee", "hitmonchan", "lickitung", "tangela"]
+
+defaults = ["moltres", "zapdos", "articuno", "mew". "mewtwo", "meganium", "typhlosion", "feraligatr", "togetic", "ampharos", "bellossom", "sudowoodo", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "tyranitar"]
 print defaults
 
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
@@ -225,7 +226,7 @@ while True:
             stamina = int(setNoneToZero(i["individual_stamina"]));
             iv = sumIV(attack, defense, stamina)
             if i["encounter_id"] not in discoveredList :
-                if i["pokemon_name"].lower() in pokemons or iv >= 44 :
+                if i["pokemon_name"].lower() in pokemons or iv >= 43 :
                     disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
