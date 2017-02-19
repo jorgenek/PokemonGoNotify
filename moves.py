@@ -119,6 +119,7 @@ moves = {
     '273': 'Energy Ball(Grass) 90',
     '274': 'Extrasensory(Psychic) 12',
     '275': 'Futuresight(Psychic) 120',
+    '276': 'Mirror Coat(Psychic) 60',
     '279': 'Crunch(Dark) 70',
     '280': 'Foul Play(Dark) 70'
 
