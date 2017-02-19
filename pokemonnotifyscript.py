@@ -179,7 +179,7 @@ print "Your latitude: " + str(yourlat)
 print "Your longitude: " + str(yourlng)
 print "Default pokemons: "
 
-defaults = ["moltres", "zapdos", "articuno", "mew", "mewtwo", "meganium", "typhlosion", "feraligatr", "togetic", "ampharos", "bellossom", "sudowoodo", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "tyranitar"]
+defaults = ["misdreavus", "moltres", "zapdos", "articuno", "mew", "mewtwo", "meganium", "typhlosion", "feraligatr", "togetic", "ampharos", "bellossom", "ursaring", "sudowoodo", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "larvitar", "pupitar", "tyranitar"]
 print defaults
 
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()

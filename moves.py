@@ -8,6 +8,8 @@ moves = {
     '21': 'Flame Wheel(Fire) 60',
     '22': 'Megahorn(Bug) 90',
     '24': 'Flamethrower(Fire) 70',
+    '26': 'Dig(Ground) 100',
+    '28': 'Cross Chop(Fighting) 50',
     '30': 'Psybeam(Psychic) 70',
     '31': 'Earthquake(Ground) 120',
     '32': 'Stone Edge(Rock) 100',
@@ -16,6 +18,8 @@ moves = {
     '36': 'Flash Cannon(Steel) 100',
     '39': 'Ice Beam(Ice) 90',
     '40': 'Blizzard(Ice) 130',
+    '45': 'Aerial Ace(Flying) 55',
+    '46': 'Drill Run(Ground) 80',
     '47': 'Petal Blizzard(Grass) 110',
     '49': 'Bug Buzz(Bug) 90',
     '51': 'Night Slash(Dark) 50',
@@ -29,6 +33,8 @@ moves = {
     '62': 'Ancient Power(Rock) 70',
     '63': 'Rock Tomb(Rock) 70',
     '64': 'Rock Slide(Rock) 80',
+    '66': 'Shadow Sneak(Ghost) 50',
+    '69': 'Ominous Wind(Ghost) 50',
     '70': 'Shadow Ball(Ghost) 100',
     '74': 'Iron Head(Steel) 60',
     '77': 'Thunder Punch(Electric) 45',
@@ -40,6 +46,7 @@ moves = {
     '85': 'Draining Kiss(Fairy) 60',
     '86': 'Dazzling Gleam(Fairy) 100',
     '87': 'Moonblast(Fairy) 130',
+    '88': 'Play Rough(Fairy) 90',
     '90': 'Sludge Bomb(Poison) 80',
     '95': 'Bulldoze(Ground) 80',
     '96': 'Mud Bomb(Ground) 55',
@@ -56,6 +63,7 @@ moves = {
     '116': 'Solar Beam(Grass) 180',
     '118': 'Power Whip(Grass) 90',
     '123': 'Brick Break(Fighting) 40',
+    '125': 'Swift(Normal) 60',
     '126': 'Horn Attack(Normal) 40',
     '127': 'Stomp(Normal) 55',
     '131': 'Body Slam(Normal) 50',
@@ -83,18 +91,41 @@ moves = {
     '225': 'Acid(Poison) 10',
     '226': 'Psycho Cut(Psychic) 8',
     '227': 'Rock Throw(Rock) 12',
+    '228': 'Metal Claw(Steel) 8',
     '229': 'Bullet Punch(Steel) 12',
     '230': 'Water Gun(Water) 10',
     '233': 'Mud Slap(Ground) 15',
     '234': 'Zen Headbutt(Psychic) 12',
     '235': 'Confusion(Psychic) 20',
     '237': 'Bubble(Water) 15',
+    '238': 'Feint Attack(Dark) 12',
     '239': 'Steel Wing(Steel) 12',
-    '241': 'Rock Smash(Fighting) 15'
+    '241': 'Rock Smash(Fighting) 15',
+    '243': 'Counter(Fighting) 10',
+    '245': 'Close Combat(Fighting) 100',
+    '248': 'Aurora Beam(Ice) 80',
+    '249': 'Charge Beam(Electric) 8',
+    '254': 'Avalanche(Ice) 90',
+    '255': 'Air Slash(Flying) 12',
+    '256': 'Brave Bird(Flying) 90',
+    '257': 'Sky Attack(Flying) 70',
+    '259': 'Rock Blast(Rock) 50',
+    '260': 'Infestation(Bug) 10',
+    '261': 'Struggle Bug(Bug) 6',
+    '263': 'Astonish(Ghost) 8',
+    '264': 'Hex(Ghost) 10',
+    '267': 'Gyro Ball(Steel) 80',
+    '268': 'Heavy Slam(Steel) 70',
+    '273': 'Energy Ball(Grass) 90',
+    '274': 'Extrasensory(Psychic) 12',
+    '275': 'Futuresight(Psychic) 120',
+    '279': 'Crunch(Dark) 70',
+    '280': 'Foul Play(Dark) 70'
+
 }
 
 def getMoveName(move):
     if move in moves:
-      return moves[move]
+        return moves[move]
     else:
-      return move
+        return move
