@@ -135,6 +135,7 @@ moves = {
     '262': 'Silver Wind(Bug) 70',
     '263': 'Astonish(Ghost) 8',
     '264': 'Hex(Ghost) 10',
+    '266': 'Iron Tail(Steel) 15',
     '267': 'Gyro Ball(Steel) 80',
     '268': 'Heavy Slam(Steel) 70',
     '272': 'Grass Knot(Grass) 90',
