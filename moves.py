@@ -111,7 +111,7 @@ moves = {
     '228': 'Metal Claw(Steel) 8',
     '229': 'Bullet Punch(Steel) 9',
     '230': 'Water Gun(Water) 5',
-    '231': 'Splash(Water) 0,
+    '231': 'Splash(Water) 0',
     '233': 'Mud Slap(Ground) 15',
     '234': 'Zen Headbutt(Psychic) 12',
     '235': 'Confusion(Psychic) 20',

@@ -195,10 +195,10 @@ latAnswear = raw_input("What is your current latitude location? (Press enter to 
 lngAnswear = raw_input("What is your current longitude location? (Press enter to use location based on your IP-address) ").replace(",", ".");
 
 if latAnswear == "":
-    latAnswear = yourlat
+    latAnswear = "59.911611"
 
 if lngAnswear == "":
-    lngAnswear = yourlng
+    lngAnswear = "10.759306"
 
 ivLvl = int(float(raw_input("How strong should the pokemon be before sending email? [0-45] ").replace(",", ".")))
 
