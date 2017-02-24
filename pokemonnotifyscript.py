@@ -179,7 +179,7 @@ print "Your latitude: " + str(yourlat)
 print "Your longitude: " + str(yourlng)
 print "Default pokemons: "
 
-defaults = ["girafarig", "stantler", "moltres", "zapdos", "articuno", "mew", "mewtwo", "chikorita", "bayleef", "meganium", "cyndaquil", "quilava", "typhlosion", "totodile", "croconaw", "feraligatr", "togetic", "ampharos", "bellossom", "ursaring", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "larvitar", "pupitar", "tyranitar"]
+defaults = ["dunsparce", "girafarig", "stantler", "moltres", "zapdos", "articuno", "mew", "mewtwo", "chikorita", "bayleef", "meganium", "cyndaquil", "quilava", "typhlosion", "totodile", "croconaw", "feraligatr", "togetic", "ampharos", "bellossom", "ursaring", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "larvitar", "pupitar", "tyranitar"]
 print defaults
 
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
@@ -226,7 +226,7 @@ while True:
             stamina = int(setNoneToZero(i["individual_stamina"]));
             iv = sumIV(attack, defense, stamina)
             if i["encounter_id"] not in discoveredList :
-                if i["pokemon_name"].lower() in pokemons or iv >= 43 :
+                if i["pokemon_name"].lower() in pokemons or iv >= 45 :
                     disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
