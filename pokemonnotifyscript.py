@@ -46,6 +46,22 @@ def setNoneToZero(value):
     else:
         return value
 
+def getGender(gender):
+    if (gender == 1):
+        return "Male";
+
+    elif (gender == 2):
+        return "Female"
+
+    elif (gender == 3):
+        return "None"
+    else:
+        return "Unknown"
+
+def formatHeightWeight(value):
+    if value is not None:
+        return "{0:.2f}".format(value)
+
 def sumIV(attack, defense, stamina):
     attack = setNoneToZero(attack)
     defense = setNoneToZero(defense)
@@ -77,13 +93,16 @@ def getPokemonTypes(typeList):
 def convertTimestampToTime(timestamp):
     return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S')
 
-def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, move1, move2, iv, disappear_time):
+def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, gender, height, weight, move1, move2, iv, disappear_time):
     strongEnoughPokemon = iv >= ivLvl
     perfect = False
 
     if iv == 45:
         perfect = True
 
+    weight = formatHeightWeight(weight) + "kg"
+    height = formatHeightWeight(height) + "m"
+    genderSign = getGender(gender)
     ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonNearby = pokemonDistance <= float(distanceAnswear)
@@ -109,14 +128,17 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     Stamina: {stamina}
     Move1: {move1}
     Move2: {move2}
-    Rarity: {rarity}
+    Gender: {gender}
+    Height: {height}
+    Weight: {weight}
     Disappears: {disappear}
+    Rarity: {rarity}
     Types: {types}
     Nearby: {nearby}
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, strength=strengthText, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, move1=move1, move2=move2, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time) + bcolors.ENDC
+    """.format(name=name, strength=strengthText, types=pokemonTypes, gender=genderSign, height=height, weight=weight, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, nearby=pokemonNearby, move1=move1, move2=move2, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time) + bcolors.ENDC
 
     if strongEnoughPokemon or pokemonNearby:
         if strongEnoughPokemon and pokemonNearby:
@@ -134,11 +156,12 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         msg["Subject"] = "#" + str(id) + " " + name.upper() + " was found!"
 
         body = """ {description} {name} was discovered with:
-        Strength: {strength}
         IV: {iv}
         Attack: {attack}
         Defense: {defense}
         Stamina: {stamina}
+        Strength: {strength}
+        Gender: {gender}
         Move1: {move1}
         Move2: {move2}
         Types: {types}
@@ -147,7 +170,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         Nearby: {nearby}
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
-        """.format(description=pokemonDescription, name=name, strength=strengthText, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
+        """.format(description=pokemonDescription, name=name, strength=strengthText, gender=genderSign, height=height, weight=weight, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
         msg.attach(MIMEText(body, "plain"))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
@@ -231,7 +254,7 @@ while True:
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
                     discoveredList.append(i["encounter_id"])
-                    notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"], i["longitude"], i["individual_attack"], i["individual_defense"], i["individual_stamina"], i["pokemon_rarity"], i["pokemon_types"], move1, move2, iv, disappear_time)
+                    notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"], i["longitude"], i["individual_attack"], i["individual_defense"], i["individual_stamina"], i["pokemon_rarity"], i["pokemon_types"], i["gender"], i["height"], i["weight"], move1, move2, iv, disappear_time)
     except ValueError:
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
