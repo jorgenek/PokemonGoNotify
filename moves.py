@@ -37,6 +37,7 @@ moves = {
     '64': 'Rock Slide(Rock) 80',
     '65': 'Power Gem(Rock) 80',
     '66': 'Shadow Sneak(Ghost) 50',
+    '67': 'Shadow Punch(Ghost) 40',
     '69': 'Ominous Wind(Ghost) 50',
     '70': 'Shadow Ball(Ghost) 100',
     '72': 'Magnet Bomb(Steel) 70',
