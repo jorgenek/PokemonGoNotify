@@ -57,6 +57,7 @@ moves = {
     '90': 'Sludge Bomb(Poison) 80',
     '91': 'Sludge Wave(Poison) 110',
     '92': 'Gunk Shot(Poison) 130',
+    '94': 'Bone Club(Ground) 40',
     '95': 'Bulldoze(Ground) 80',
     '96': 'Mud Bomb(Ground) 55',
     '99': 'Signal Beam(Bug) 75',
