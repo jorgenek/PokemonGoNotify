@@ -19,6 +19,7 @@ moves = {
     '36': 'Flash Cannon(Steel) 100',
     '39': 'Ice Beam(Ice) 90',
     '40': 'Blizzard(Ice) 130',
+    '42': 'Heat Wave(Fire) 95',
     '45': 'Aerial Ace(Flying) 55',
     '46': 'Drill Run(Ground) 80',
     '47': 'Petal Blizzard(Grass) 110',
