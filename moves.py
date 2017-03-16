@@ -71,6 +71,7 @@ moves = {
     '111': 'Icy Wind(Ice) 60',
     '115': 'Fire Punch(Fire) 55',
     '116': 'Solar Beam(Grass) 180',
+    '117': 'Leaf Blade(Grass) 70',
     '118': 'Power Whip(Grass) 90',
     '121': 'Air Cutter(Flying) 60',
     '122': 'Hurricane(Flying) 110',
