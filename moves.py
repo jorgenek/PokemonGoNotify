@@ -146,6 +146,7 @@ moves = {
     '266': 'Iron Tail(Steel) 15',
     '267': 'Gyro Ball(Steel) 80',
     '268': 'Heavy Slam(Steel) 70',
+    '271': 'Bullet Seed(Grass) 8',
     '272': 'Grass Knot(Grass) 90',
     '273': 'Energy Ball(Grass) 90',
     '274': 'Extrasensory(Psychic) 12',
