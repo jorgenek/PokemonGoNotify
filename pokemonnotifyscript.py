@@ -6,6 +6,7 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from math import radians, cos, sin, asin, sqrt
 from collections import Counter
+from lxml import html
 
 cnt = Counter()
 
@@ -94,6 +95,12 @@ def convertTimestampToTime(timestamp):
     return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S')
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, gender, height, weight, move1, move2, iv, disappear_time):
+
+    pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + str(id) + str(name) +'.png'
+    page = requests.get(pageurl)
+    tree = html.fromstring(page.content)
+    pokemonImageUrl = tree.xpath('//div[@class="fullImageLink"]//a/@href')[0]
+
     strongEnoughPokemon = iv >= ivLvl
     perfect = False
 
@@ -150,7 +157,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         else:
             pokemonDescription = ""
 
-        msg = MIMEMultipart()
+        msg = MIMEMultipart('alternative')
         msg["From"] = fromEmail
         msg["To"] = toEmail
         msg["Subject"] = "#" + str(id) + " " + name.upper() + " was found!"
@@ -171,7 +178,35 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         Distance: {distance}
         http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
         """.format(description=pokemonDescription, name=name, strength=strengthText, gender=genderSign, height=height, weight=weight, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
+
+        htmlemail = """
+        <html>
+            <body>
+                <h2>{description} {name} was discovered</h2>
+                <img src={url} alt="Pokemon image" style="width:35%; float:right;">
+                <ul style="list-style-position: inside; list-style-type: none;">
+                <li>IV: {iv}</li>
+                <li>Attack: {attack}</li>
+                <li>Defense: {defense}</li>
+                <li>Stamina: {stamina}</li>
+                <li>Strength: {strength}</li>
+                <li>Gender: {gender}</li>
+                <li>Move1: {move1}</li>
+                <li>Move2: {move2}</li>
+                <li>Types: {types}</li>
+                <li>Rarity: {rarity}</li>
+                <li>Disappears: {disappear}</li>
+                <li>Nearby: {nearby}</li>
+                <li>Distance: {distance}</li>
+                </ul>
+                <h3><a href="http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}">See on map!</a></h3>
+            </body>
+        </html>
+        """.format(url=pokemonImageUrl, description=pokemonDescription, name=name, strength=strengthText, gender=genderSign, height=height, weight=weight, types=pokemonTypes, rarity=rarity, iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2, nearby=pokemonNearby, distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
+
         msg.attach(MIMEText(body, "plain"))
+
+        msg.attach(MIMEText(htmlemail, 'html'))
 
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
         print
@@ -202,7 +237,7 @@ print "Your latitude: " + str(yourlat)
 print "Your longitude: " + str(yourlng)
 print "Default pokemons: "
 
-defaults = ["dunsparce", "girafarig", "stantler", "moltres", "zapdos", "articuno", "mew", "mewtwo", "chikorita", "bayleef", "meganium", "cyndaquil", "quilava", "typhlosion", "totodile", "croconaw", "feraligatr", "togetic", "ampharos", "bellossom", "ursaring", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "larvitar", "pupitar", "tyranitar"]
+defaults = ["moltres", "zapdos", "articuno", "mew", "mewtwo", "chikorita", "bayleef", "meganium", "cyndaquil", "quilava", "typhlosion", "totodile", "croconaw", "feraligatr", "togetic", "ampharos", "bellossom", "ursaring", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "larvitar", "pupitar", "tyranitar"]
 print defaults
 
 choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
