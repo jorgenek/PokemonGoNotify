@@ -41,6 +41,14 @@ def addMailEnding(mail):
     else:
         return mail
 
+def formatId (id):
+    if len(id) == 1:
+        return "00" + id
+    elif len(id) == 2:
+        return "0" + id
+    else:
+        return id
+
 def setNoneToZero(value):
     if value is None:
         return 0
@@ -48,13 +56,13 @@ def setNoneToZero(value):
         return value
 
 def getGender(gender):
-    if (gender == 1):
+    if gender == 1:
         return "Male";
 
-    elif (gender == 2):
+    elif gender == 2:
         return "Female"
 
-    elif (gender == 3):
+    elif gender == 3:
         return "None"
     else:
         return "Unknown"
@@ -96,7 +104,8 @@ def convertTimestampToTime(timestamp):
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types, gender, height, weight, move1, move2, iv, disappear_time):
 
-    pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + str(id) + str(name) +'.png'
+    id = formatId(str(id))
+    pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
     page = requests.get(pageurl)
     tree = html.fromstring(page.content)
     pokemonImageUrl = tree.xpath('//div[@class="fullImageLink"]//a/@href')[0]
@@ -160,7 +169,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         msg = MIMEMultipart('alternative')
         msg["From"] = fromEmail
         msg["To"] = toEmail
-        msg["Subject"] = "#" + str(id) + " " + name.upper() + " was found!"
+        msg["Subject"] = "#" + id + " " + name.upper() + " was found!"
 
         body = """ {description} {name} was discovered with:
         IV: {iv}
