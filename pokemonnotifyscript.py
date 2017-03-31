@@ -2,6 +2,7 @@
 
 import requests, time, smtplib, getpass, json, datetime
 from moves import getMoveName
+from config import getConfig
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from math import radians, cos, sin, asin, sqrt
@@ -116,12 +117,12 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
     if iv == 45:
         perfect = True
 
-    weight = formatHeightWeight(weight) + "kg"
-    height = formatHeightWeight(height) + "m"
+    weight = formatHeightWeight(weight) + "kg" if weight is not None else "??"
+    height = formatHeightWeight(height) + "m" if height is not None else "??"
     genderSign = getGender(gender)
     ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
-    pokemonNearby = pokemonDistance <= float(distanceAnswear)
+    pokemonNearby = pokemonDistance <= distanceAnswear
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     pokemonTypes = getPokemonTypes(types)
 
@@ -233,51 +234,33 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         print key, value
     print
 
-# raw_input returns the empty string for "enter"
-yes = set(["yes","y", "ye", ""])
-
+config = getConfig()
 send_url = "http://freegeoip.net/json"
 r = requests.get(send_url)
 j = json.loads(r.text)
 yourlat = j["latitude"]
 yourlng = j["longitude"]
 print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
-print "Your latitude: " + str(yourlat)
-print "Your longitude: " + str(yourlng)
-print "Default pokemons: "
 
-defaults = ["moltres", "zapdos", "articuno", "mew", "mewtwo", "chikorita", "bayleef", "meganium", "cyndaquil", "quilava", "typhlosion", "totodile", "croconaw", "feraligatr", "togetic", "ampharos", "bellossom", "ursaring", "politoed", "sunflora", "espeon", "umbreon", "slowking", "unown", "steelix", "scizor", "heracross", "shuckle", "delibird", "skarmory", "houndoom", "kingdra", "donphan", "porygon2", "smeargle", "hitmontop", "miltank", "blissey", "raikou", "entei", "suicune", "lugia", "ho-oh", "celebi", "larvitar", "pupitar", "tyranitar"]
-print defaults
+pokemons = formatPokemonsToList(config["pokemons"])
+latAnswear = yourlat if config["latitude"] == '' else config["latitude"].replace(",", ".")
+lngAnswear = yourlng if config["longitude"] == '' else config["longitude"].replace(",", ".")
+ivLvl = config["ivLvl"]
+distanceAnswear = config["distance"]
+fromEmail = addMailEnding(config['sendingEmail'])
+toEmail = addMailEnding(config['recievingEmail'])
+fromEmail = addMailEnding(config['sendingEmail'])
 
-choice = raw_input("Use the default Pokemons? [Yes/No] ").lower()
-if choice in yes:
-    choseDefault = True
-    pokemons = defaults
-else:
-    choseDefault = False
-    pokemons = formatPokemonsToList(raw_input("Please enter the pokemons you are searching for seperated by ",": "))
+print "Pokemons: "
+print bcolors.WARNING + config["pokemons"] + bcolors.ENDC
+print "Latitude: " + bcolors.WARNING + latAnswear + bcolors.ENDC
+print "Longitude: " + bcolors.WARNING + lngAnswear + bcolors.ENDC
+print "IV lvl: " + bcolors.WARNING + str(ivLvl) + bcolors.ENDC
+print "Distance: " + bcolors.WARNING + str(distanceAnswear) + bcolors.ENDC
+print "Recieving email: " + bcolors.WARNING + toEmail + bcolors.ENDC
+print "Sending email: " + bcolors.WARNING + str(fromEmail) + bcolors.ENDC
 
-print pokemons
-latAnswear = raw_input("What is your current latitude location? (Press enter to use location based on your IP-address) ").replace(",", ".");
-lngAnswear = raw_input("What is your current longitude location? (Press enter to use location based on your IP-address) ").replace(",", ".");
-
-if latAnswear == "":
-    latAnswear = yourlat
-
-if lngAnswear == "":
-    lngAnswear = yourlng
-
-ivLvl = int(float(raw_input("How strong should the pokemon be before sending email? [0-45] ").replace(",", ".")))
-
-if ivLvl > 45 :
-    ivLvl = 45
-elif ivLvl < 0:
-    ivLvl = 0
-
-distanceAnswear = raw_input("How near should the pokemon be before you send an email? (km) ").replace(",", ".")
-fromEmail = addMailEnding(raw_input("Sending Gmail account: "))
-password = getpass.getpass("Password: ")
-toEmail = addMailEnding(raw_input("Recieving email account: "))
+password = getpass.getpass("Password for " + addMailEnding(config['sendingEmail']) + ":")
 
 #List of pokemons that are discoverd so you won"t get spammed
 discoveredList = []
