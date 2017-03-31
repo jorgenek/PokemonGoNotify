@@ -250,6 +250,7 @@ distanceAnswear = config["distance"]
 fromEmail = addMailEnding(config['sendingEmail'])
 toEmail = addMailEnding(config['recievingEmail'])
 fromEmail = addMailEnding(config['sendingEmail'])
+notifyPerfect = config['perfect']
 
 print "Pokemons: "
 print bcolors.WARNING + config["pokemons"] + bcolors.ENDC
@@ -257,6 +258,7 @@ print "Latitude: " + bcolors.WARNING + latAnswear + bcolors.ENDC
 print "Longitude: " + bcolors.WARNING + lngAnswear + bcolors.ENDC
 print "IV lvl: " + bcolors.WARNING + str(ivLvl) + bcolors.ENDC
 print "Distance: " + bcolors.WARNING + str(distanceAnswear) + bcolors.ENDC
+print "Notify perfect: " + bcolors.WARNING + str(notifyPerfect) + bcolors.ENDC
 print "Recieving email: " + bcolors.WARNING + toEmail + bcolors.ENDC
 print "Sending email: " + bcolors.WARNING + str(fromEmail) + bcolors.ENDC
 
@@ -276,7 +278,7 @@ while True:
             stamina = int(setNoneToZero(i["individual_stamina"]));
             iv = sumIV(attack, defense, stamina)
             if i["encounter_id"] not in discoveredList :
-                if i["pokemon_name"].lower() in pokemons or iv >= 45 :
+                if i["pokemon_name"].lower() in pokemons or iv >= 45 and notifyPerfect :
                     disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
