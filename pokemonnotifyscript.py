@@ -192,7 +192,7 @@ def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
         <html>
             <body>
                 <h2>{description} {name} was discovered</h2>
-                <img src={url} alt="Pokemon image" style="width:35%; float:right;">
+                <img src={url} alt="Pokemon image" style="width:35%; float:right; max-width: 200px;">
                 <ul style="list-style-position: inside; list-style-type: none;">
                 <li>IV: {iv}</li>
                 <li>Attack: {attack}</li>
