@@ -243,8 +243,8 @@ yourlng = j["longitude"]
 print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
 
 pokemons = formatPokemonsToList(config["pokemons"])
-latAnswear = yourlat if config["latitude"] == '' else config["latitude"].replace(",", ".")
-lngAnswear = yourlng if config["longitude"] == '' else config["longitude"].replace(",", ".")
+latAnswear = str(yourlat) if config["latitude"] == '' else config["latitude"].replace(",", ".")
+lngAnswear = str(yourlng) if config["longitude"] == '' else config["longitude"].replace(",", ".")
 ivLvl = config["ivLvl"]
 distanceAnswear = config["distance"]
 fromEmail = addMailEnding(config['sendingEmail'])
