@@ -7,8 +7,8 @@ config = {
   suicune, lugia, ho-oh, celebi, larvitar, pupitar, tyranitar""",
   'latitude': "",
   'longitude': "",
-  'distance': 1.5, # Double in km
   'ivLvl': 39, # Integer between 0-45
+  'distance': 1.5, # Double in km
   'sendingEmail': "", #Must be Gmail account
   'recievingEmail': ""
 }
