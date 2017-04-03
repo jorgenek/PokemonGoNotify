@@ -284,7 +284,7 @@ while True:
                     move2 = getMoveName(str(i["move_2"]))
                     discoveredList.append(i["encounter_id"])
                     notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"], i["longitude"], i["individual_attack"], i["individual_defense"], i["individual_stamina"], i["pokemon_rarity"], i["pokemon_types"], i["gender"], i["height"], i["weight"], move1, move2, iv, disappear_time)
-    except (ValueError, ConnectionError):
+    except (ValueError, requests.ConnectionError):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
     time.sleep(30)
