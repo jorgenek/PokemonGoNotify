@@ -85,7 +85,7 @@ def formatPokemonsToList(string):
     return string
 
 def getPokemons():
-    url = "https://www.pogonorge.com/stopit?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
+    url = "https://oslo.pogonorge.com/stopit?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
     return requests.get(url).json()
 
 def getPokemonTypes(typeList):
