@@ -7,9 +7,7 @@ config = {
   suicune, lugia, ho-oh, celebi, larvitar, pupitar, tyranitar""",
   'latitude': "",
   'longitude': "",
-  'ivLvl': 39, #Integer between 0-45
   'distance': 1.5, #Double in km
-  'perfect': True, #If you shall be notified by all perfect pokemons -True/False
   'sendingEmail': "", #Must be Gmail account
   'recievingEmail': ""
 }
