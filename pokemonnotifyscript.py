@@ -148,7 +148,7 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     msg = MIMEMultipart('alternative')
     msg["From"] = fromEmail
     msg["To"] = toEmail
-    msg["Subject"] = "#" + id + " " + name.upper() + " was discovered!"
+    msg["Subject"] = name.upper() + " was discovered!"
 
     body = """
     ID: {id}
