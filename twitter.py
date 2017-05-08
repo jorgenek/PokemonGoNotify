@@ -30,4 +30,4 @@ weight, types, form, move1, move2, lat, lng, disappear, config):
         os.remove(filename)
     else:
         print "Unable to download image"
-        api.update_status(status=message)
+        api.update_status(status=tweet)
