@@ -183,49 +183,49 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
                                                     <td align="center"><br><img src={url} tabindex="0" width="100"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Disappears: {disappear}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Disappears:</b> {disappear}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Distance: {distance}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Distance:</b> {distance}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">CP: {cp}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>CP:</b> {cp}</td>
                                                 </tr
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">IV: {iv}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>IV:</b> {iv}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Attack: {attack}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Attack:</b> {attack}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Defense: {defense}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Defense:</b> {defense}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Stamina: {stamina}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Stamina:</b> {stamina}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Gender: {gender}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Gender:</b> {gender}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Move1: {move1}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Move1:</b> {move1}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Move2: {move2}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Move2:</b> {move2}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Form: {form}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Form:</b> {form}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Height: {height}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Height:</b> {height}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Weight: {weight}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Weight:</b> {weight}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Types: {types}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Types:</b> {types}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Rarity: {rarity}</td>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Rarity:</b> {rarity}</td>
                                                 </tr>
                                             </tbody></table>
                                         </td>
