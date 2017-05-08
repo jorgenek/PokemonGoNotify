@@ -106,7 +106,10 @@ def convertTimestampToTime(timestamp):
 
 def resizeImage(url):
     index = url.find('px-')
-    return url[:index-3] + "100" + url[index:]
+    if index >= 0:
+        return url[:index-3] + "100" + url[index:]
+    else:
+        return url
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
 gender, height, weight, cp, form, move1, move2, iv, disappear_time):
