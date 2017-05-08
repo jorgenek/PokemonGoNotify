@@ -13,6 +13,9 @@ weight, types, form, move1, move2, lat, lng, disappear, config):
         tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". IV: " + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). " + str(cp) + "cp, "+ move1 + ", " + move2 + ", " + gender + ", " + height +", " + weight +". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
         if len(tweet) > 140:
             tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". IV: " + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). " + str(cp) + "cp, "+ move1 + ", " + move2 + ", " + gender + ". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
+            if len(tweet) > 140:
+                tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". IV: " + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). " + str(cp) + "cp. http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
+
     else:
         tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
 
