@@ -132,6 +132,7 @@ moves = {
     '249': 'Charge Beam(Electric) 8',
     '251': 'Wild Charge(Electric) 90',
     '252': 'Zap Cannon(Electric) 140',
+    '253': 'Dragon Tail(Dragon) 15',
     '254': 'Avalanche(Ice) 90',
     '255': 'Air Slash(Flying) 14',
     '256': 'Brave Bird(Flying) 90',
