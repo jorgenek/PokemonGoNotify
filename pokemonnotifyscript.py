@@ -107,7 +107,7 @@ def convertTimestampToTime(timestamp):
 def resizeImage(url):
     index = url.find('px-')
     if index >= 0:
-        return url[:index-3] + "100" + url[index:]
+        return url[:index-3] + "250" + url[index:]
     else:
         return url
 
