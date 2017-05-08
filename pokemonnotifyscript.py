@@ -189,6 +189,39 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
                                                     <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Distance: {distance}</td>
                                                 </tr>
                                                 <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">CP: {cp}</td>
+                                                </tr
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">IV: {iv}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Attack: {attack}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Defense: {defense}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Stamina: {stamina}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Gender: {gender}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Move1: {move1}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Move2: {move2}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Form: {form}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Height: {height}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Weight: {weight}</td>
+                                                </tr>
+                                                <tr>
                                                     <td align="center" style="padding:20px 0 0 0;font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8">Types: {types}</td>
                                                 </tr>
                                                 <tr>
@@ -222,8 +255,11 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
           </div>
       </body>
   </html>
-    """.format(url=pokemonImageUrl, id=id, name=name, types=pokemonTypes, rarity=rarity,
-    distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time)
+    """.format(url=pokemonImageUrl, name=name, types=pokemonTypes, gender=genderSign,
+    height=height, weight=weight, rarity=rarity, iv=ivtemp, attack=attack,
+    defense=defense, stamina=stamina, move1=move1, move2=move2,
+    distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
+    form=form, id=id)
 
     msg.attach(MIMEText(body, "plain"))
 
