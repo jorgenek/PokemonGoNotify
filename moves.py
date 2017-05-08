@@ -153,6 +153,7 @@ moves = {
     '274': 'Extrasensory(Psychic) 12',
     '275': 'Futuresight(Psychic) 120',
     '276': 'Mirror Coat(Psychic) 60',
+    '277': 'Outrage(Dragon) 110',
     '279': 'Crunch(Dark) 70',
     '280': 'Foul Play(Dark) 70',
     '281': 'Hidden Power(Normal) 15'
