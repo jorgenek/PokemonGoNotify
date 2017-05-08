@@ -3,6 +3,7 @@
 import requests, time, smtplib, getpass, json, datetime
 from moves import getMoveName
 from config import getConfig
+from twitter import tweet
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from math import radians, cos, sin, asin, sqrt
@@ -103,6 +104,10 @@ def getPokemonTypes(typeList):
 def convertTimestampToTime(timestamp):
     return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S')
 
+def resizeImage(url):
+    index = url.find('px-')
+    return url[:index-3] + "100" + url[index:]
+
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
 gender, height, weight, cp, form, move1, move2, iv, disappear_time):
 
@@ -110,7 +115,8 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
     page = requests.get(pageurl)
     tree = html.fromstring(page.content)
-    pokemonImageUrl = tree.xpath('//div[@class="fullImageLink"]//a/@href')[0]
+    pokemonImageUrl = tree.xpath('//div[@class="fullImageLink"]//a/img/@src')[0]
+    pokemonImageUrl = resizeImage(pokemonImageUrl)
 
     weight = formatHeightWeight(weight) + "kg" if weight is not None else None
     height = formatHeightWeight(height) + "m" if height is not None else None
@@ -273,6 +279,10 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     text = msg.as_string()
     server.sendmail(fromEmail, toEmail, text)
     server.quit()
+
+    tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
+    genderSign, height, weight, pokemonTypes, form, move1, move2, lat, lng,
+    disappear_time, config["twitter"]);
 
     cnt[name] += 1
     seenCount = len(discoveredList)
