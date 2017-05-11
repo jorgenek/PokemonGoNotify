@@ -130,6 +130,7 @@ moves = {
     '247': 'Focus Blast(Fighting) 140',
     '248': 'Aurora Beam(Ice) 80',
     '249': 'Charge Beam(Electric) 8',
+    '250': 'Volt Switch(Electric) 20',
     '251': 'Wild Charge(Electric) 90',
     '252': 'Zap Cannon(Electric) 140',
     '253': 'Dragon Tail(Dragon) 15',
