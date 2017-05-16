@@ -9,13 +9,18 @@ def twitter_api(cfg):
 
 def tweet(url, id, name, iv, attack, defense, stamina, cp, gender, height,
 weight, types, form, move1, move2, lat, lng, disappear, config):
-    if attack is not None:
-        tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". IV: " + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). " + str(cp) + "cp, "+ move1 + ", " + move2 + ", " + gender + ", " + height +", " + weight +". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
-        if len(tweet) > 140:
-            tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". IV: " + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). " + str(cp) + "cp, "+ move1 + ", " + move2 + ", " + gender + ". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
-            if len(tweet) > 140:
-                tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". IV: " + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). " + str(cp) + "cp. http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
 
+    googleMapsUrl = "http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
+    if attack is not None:
+        if '(' in move1 and '(' in move2:
+            move = move1[:move1.index('(')] + "/" + move2[:move2.index('(')]
+        else:
+            move = move1 + "/" + move2
+        infoPost = "#" + str(id) + " " + name + " " + disappear + ", IV:" + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). cp" + str(cp) + ", "+ move + ", " + gender + ", " + height + "/" + weight + ". "
+        tweet = infoPost + googleMapsUrl
+        if len(tweet) > 140:
+            overflow = len(tweet) - 140
+            tweet = infoPost[:len(tweet)-overflow] + googleMapsUrl
     else:
         tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
 
