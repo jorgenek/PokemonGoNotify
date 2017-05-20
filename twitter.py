@@ -25,21 +25,20 @@ weight, types, form, move1, move2, lat, lng, disappear, config):
         tweet = "#" + str(id) + " " + name + " forsvinner " + disappear + ". http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
 
     for i in range(0,10):
-        while True:
-            try:
-                api = twitter_api(config)
-                filename = name + '.jpg'
-                request = requests.get(url, stream=True)
-                if request.status_code == 200:
-                    with open(filename, 'wb') as image:
-                        for chunk in request:
-                            image.write(chunk)
-                    api.update_with_media(filename, status=tweet, long=lng, lat=lat)
-                    os.remove(filename)
-                else:
-                    print "Unable to download image"
-                    api.update_status(status=tweet)
-            except TweepError as err:
-                print bcolors.WARNING + "Code: " + str(err.message[0]['code']) + " Message: " + err.message[0]['message'] + bcolors.ENDC
-                continue
-            break
+        try:
+            api = twitter_api(config)
+            filename = name + '.jpg'
+            request = requests.get(url, stream=True)
+            if request.status_code == 200:
+                with open(filename, 'wb') as image:
+                    for chunk in request:
+                        image.write(chunk)
+                api.update_with_media(filename, status=tweet, long=lng, lat=lat)
+                os.remove(filename)
+            else:
+                print "Unable to download image"
+                api.update_status(status=tweet)
+        except TweepError as err:
+            print bcolors.WARNING + "Code: " + str(err.message[0]['code']) + " Message: " + err.message[0]['message'] + bcolors.ENDC
+            continue
+        break
