@@ -124,7 +124,7 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     weight = formatHeightWeight(weight) + "kg" if weight is not None else None
     height = formatHeightWeight(height) + "m" if height is not None else None
     genderSign = getGender(gender)
-    ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + " %"
+    ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + "%"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     pokemonTypes = getPokemonTypes(types)
@@ -286,6 +286,7 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
     genderSign, height, weight, pokemonTypes, form, move1, move2, lat, lng,
     disappear_time, config["twitter"]);
+    print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
     cnt[name] += 1
     seenCount = len(discoveredList)
