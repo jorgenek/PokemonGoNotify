@@ -58,13 +58,13 @@ def setNoneToZero(value):
         return value
 
 def getGender(gender):
-    if gender == 1:
+    if gender == "1":
         return "Male"
 
-    elif gender == 2:
+    elif gender == "2":
         return "Female"
 
-    elif gender == 3:
+    elif gender == "3":
         return "None"
     else:
         return None
