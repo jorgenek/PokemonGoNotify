@@ -345,8 +345,7 @@ while True:
                     i["sta"], i["pokemon_rarity"],
                     i["gender"], i["height"], i["weight"], i["cp"],
                     move1, move2, iv, disappear_time)
-    except requests.exceptions.RequestException as err:
-        print err
+    except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
     time.sleep(30)
