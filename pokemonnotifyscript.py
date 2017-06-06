@@ -71,6 +71,7 @@ def getGender(gender):
 
 def formatHeightWeight(value):
     if value is not None:
+        value = float(value)
         return "{0:.2f}".format(value)
 
 def sumIV(attack, defense, stamina):
@@ -86,7 +87,7 @@ def formatPokemonsToList(string):
     return string
 
 def getPokemons():
-    url = "https://oslo.pogonorge.com/stopit?pokemon=true&pokestops=false&gyms=false&swLat=59.887683&swLng=10.612793&neLat=59.96176813704309&neLng=10.901299487051347"
+    url = "https://nomaps.me/raw_data?by=oslo&pokemon=true&pokestops=false&gyms=false&scanned=false&spawnpoints=false&swLat=59.86033318574186&swLng=10.358734130859377&neLat=60.01443251058505&neLng=11.319351196289062&alwaysperfect=true&_=1496124226747"
     return requests.get(url).json()
 
 def getPokemonTypes(typeList):
@@ -111,8 +112,14 @@ def resizeImage(url):
     else:
         return url
 
-def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity, types,
-gender, height, weight, cp, form, move1, move2, iv, disappear_time):
+def checkValidUrl(url):
+    if url.startswith('http'):
+        return url
+    else:
+        return "https:" + url
+
+def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity,
+gender, height, weight, cp, move1, move2, iv, disappear_time):
 
     id = formatId(str(id))
     pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
@@ -120,6 +127,7 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     tree = html.fromstring(page.content)
     pokemonImageUrl = tree.xpath('//div[@class="fullImageLink"]//a/img/@src')[0]
     pokemonImageUrl = resizeImage(pokemonImageUrl)
+    pokemonImageUrl = checkValidUrl(pokemonImageUrl)
 
     weight = formatHeightWeight(weight) + "kg" if weight is not None else None
     height = formatHeightWeight(height) + "m" if height is not None else None
@@ -127,7 +135,7 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + "%"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
-    pokemonTypes = getPokemonTypes(types)
+    #pokemonTypes = getPokemonTypes(types)
 
     print time.strftime("%d. %b %Y %H:%M:%S")
     print bcolors.OKGREEN + """#{id} {name} was discovered with:
@@ -140,19 +148,17 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     Gender: {gender}
     Height: {height}
     Weight: {weight}
-    Form: {form}
     CP: {cp}
     Disappears: {disappear}
     Rarity: {rarity}
-    Types: {types}
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, types=pokemonTypes, gender=genderSign, height=height,
+    """.format(name=name, gender=genderSign, height=height,
     weight=weight, rarity=rarity, iv=ivtemp, attack=attack, defense=defense,
     stamina=stamina, move1=move1, move2=move2,
     distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
-    form=form, id=id) + bcolors.ENDC
+    id=id) + bcolors.ENDC
 
     msg = MIMEMultipart('alternative')
     msg["From"] = fromEmail
@@ -162,13 +168,12 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
     body = """
     ID: {id}
     Name: {name}
-    Types: {types}
     Rarity: {rarity}
     Disappears: {disappear}
     Distance: {distance}
     http://maps.google.com/maps?z=8&t=m&q=loc:{lat}+{lng}
     """.format(name=name, id=id, rarity=rarity, distance=pokemonDistance, lat=lat,
-    lng=lng, types=pokemonTypes, disappear=disappear_time)
+    lng=lng, disappear=disappear_time)
 
     htmlemail = """
 <html>
@@ -222,16 +227,10 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Move2:</b> {move2}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Form:</b> {form}</td>
-                                                </tr>
-                                                <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Height:</b> {height}</td>
                                                 </tr>
                                                 <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Weight:</b> {weight}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Types:</b> {types}</td>
                                                 </tr>
                                                 <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Rarity:</b> {rarity}</td>
@@ -264,27 +263,29 @@ gender, height, weight, cp, form, move1, move2, iv, disappear_time):
           </div>
       </body>
   </html>
-    """.format(url=pokemonImageUrl, name=name, types=pokemonTypes, gender=genderSign,
+    """.format(url=pokemonImageUrl, name=name, gender=genderSign,
     height=height, weight=weight, rarity=rarity, iv=ivtemp, attack=attack,
     defense=defense, stamina=stamina, move1=move1, move2=move2,
     distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
-    form=form, id=id)
+    id=id)
 
     msg.attach(MIMEText(body, "plain"))
 
     msg.attach(MIMEText(htmlemail, 'html'))
 
-    print bcolors.HEADER + "Sending email" + bcolors.ENDC
-    print
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login(fromEmail, password)
-    text = msg.as_string()
-    server.sendmail(fromEmail, toEmail, text)
-    server.quit()
+
+    if float(iv) > 35 or name.lower() == "unown":
+        print bcolors.HEADER + "Sending email" + bcolors.ENDC
+        print
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(fromEmail, password)
+        text = msg.as_string()
+        server.sendmail(fromEmail, toEmail, text)
+        server.quit()
 
     tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
-    genderSign, height, weight, pokemonTypes, form, move1, move2, lat, lng,
+    genderSign, height, weight, move1, move2, lat, lng,
     disappear_time, config["twitter"]);
     print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
@@ -328,21 +329,24 @@ while True:
         pokemonJson = getPokemons()
 
         for i in pokemonJson["pokemons"]:
-            attack = int(setNoneToZero(i["individual_attack"]))
-            defense = int(setNoneToZero(i["individual_defense"]))
-            stamina = int(setNoneToZero(i["individual_stamina"]))
+            attack = int(setNoneToZero(i["atk"]))
+            defense = int(setNoneToZero(i["def"]))
+            stamina = int(setNoneToZero(i["sta"]))
             iv = sumIV(attack, defense, stamina)
-            if i["encounter_id"] not in discoveredList and i["pokemon_name"].lower() in pokemons :
-                disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
-                move1 = getMoveName(str(i["move_1"]))
-                move2 = getMoveName(str(i["move_2"]))
-                discoveredList.append(i["encounter_id"])
-                notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"],
-                i["longitude"], i["individual_attack"], i["individual_defense"],
-                i["individual_stamina"], i["pokemon_rarity"], i["pokemon_types"],
-                i["gender"], i["height"], i["weight"], i["cp"], i["form"],
-                move1, move2, iv, disappear_time)
-    except (ValueError, requests.exceptions.RequestException):
+
+            if i["pokemon_name"].lower() in pokemons or iv == 45:
+                if i["encounter_id"] not in discoveredList:
+                    disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
+                    move1 = getMoveName(str(i["move_1"]))
+                    move2 = getMoveName(str(i["move_2"]))
+                    discoveredList.append(i["encounter_id"])
+                    notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"],
+                    i["longitude"], i["atk"], i["def"],
+                    i["sta"], i["pokemon_rarity"],
+                    i["gender"], i["height"], i["weight"], i["cp"],
+                    move1, move2, iv, disappear_time)
+    except requests.exceptions.RequestException as err:
+        print err
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
     time.sleep(30)

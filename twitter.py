@@ -8,15 +8,14 @@ def twitter_api(cfg):
     return tweepy.API(auth)
 
 def tweet(url, id, name, iv, attack, defense, stamina, cp, gender, height,
-weight, types, form, move1, move2, lat, lng, disappear, config):
-
+weight, move1, move2, lat, lng, disappear, config):
     googleMapsUrl = "http://maps.google.com/maps?z=8&t=m&q=loc:" + str(lat) + "+" + str(lng)
     if attack is not None:
         if '(' in move1 and '(' in move2:
             move = move1[:move1.index('(')] + "/" + move2[:move2.index('(')]
         else:
             move = move1 + "/" + move2
-        infoPost = "#" + str(id) + " " + name + " " + disappear + ", IV:" + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). cp" + str(cp) + ", "+ move + ", " + gender + ", " + height + "/" + weight + ". "
+        infoPost = "#" + str(id) + " " + name + " " + disappear + ", IV:" + str(iv) + " (" + str(attack) + "/" + str(defense) + "/" + str(stamina) + "). cp" + str(cp) + ", "+ str(move) + ", " + str(gender) + ", " + str(height) + "/" + str(weight) + ". "
         tweet = infoPost + googleMapsUrl
         if len(tweet) > 140:
             overflow = len(tweet) - 140
@@ -38,7 +37,7 @@ weight, types, form, move1, move2, lat, lng, disappear, config):
             else:
                 print "Unable to download image"
                 api.update_status(status=tweet)
-        except TweepError as err:
+        except tweepy.TweepError as err:
             print bcolors.WARNING + "Code: " + str(err.message[0]['code']) + " Message: " + err.message[0]['message'] + bcolors.ENDC
             continue
         break
