@@ -340,7 +340,7 @@ while True:
                     move1 = getMoveName(str(i["move_1"]))
                     move2 = getMoveName(str(i["move_2"]))
                     discoveredList.append(i["encounter_id"])
-                    notifyDiscovery(i["pokemon_id"], i["pokemon_name"], i["latitude"],
+                    notifyDiscovery(i["pid"], i["pokemon_name"], i["latitude"],
                     i["longitude"], i["atk"], i["def"],
                     i["sta"], i["pokemon_rarity"],
                     i["gender"], i["height"], i["weight"], i["cp"],
@@ -348,4 +348,4 @@ while True:
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
-    time.sleep(30)
+    time.sleep(120)
