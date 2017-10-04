@@ -299,10 +299,11 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
         server.sendmail(fromEmail, toEmail, text)
         server.quit()
 
-    tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
-    genderSign, height, weight, move1, move2, lat, lng,
-    disappear_time, config["twitter"]);
-    print bcolors.HEADER + "Tweeted" + bcolors.ENDC
+    if config['twitter']['consumer_key'] and config['twitter']['consumer_secret'] and config['twitter']['access_token'] and config['twitter']['access_token_secret']:
+        tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
+        genderSign, height, weight, move1, move2, lat, lng,
+        disappear_time, config['twitter']);
+        print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
     cnt[name] += 1
     seenCount = len(discoveredList)
@@ -315,19 +316,19 @@ config = getConfig()
 send_url = "http://freegeoip.net/json"
 r = requests.get(send_url)
 j = json.loads(r.text)
-yourlat = j["latitude"]
-yourlng = j["longitude"]
+yourlat = j['latitude']
+yourlng = j['longitude']
 print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
 
-pokemons = formatPokemonsToList(config["pokemons"])
-latAnswear = str(yourlat) if config["latitude"] == '' else config["latitude"].replace(",", ".")
-lngAnswear = str(yourlng) if config["longitude"] == '' else config["longitude"].replace(",", ".")
+pokemons = formatPokemonsToList(config['pokemons'])
+latAnswear = str(yourlat) if config['latitude'] == '' else config['latitude'].replace(",", ".")
+lngAnswear = str(yourlng) if config['longitude'] == '' else config['longitude'].replace(",", ".")
 fromEmail = addMailEnding(config['sendingEmail'])
 toEmail = addMailEnding(config['recievingEmail'])
 fromEmail = addMailEnding(config['sendingEmail'])
 
 print "Pokemons: "
-print bcolors.WARNING + config["pokemons"] + bcolors.ENDC
+print bcolors.WARNING + config['pokemons'] + bcolors.ENDC
 print "Latitude: " + bcolors.WARNING + latAnswear + bcolors.ENDC
 print "Longitude: " + bcolors.WARNING + lngAnswear + bcolors.ENDC
 print "Recieving email: " + bcolors.WARNING + toEmail + bcolors.ENDC
@@ -345,22 +346,22 @@ while True:
     try:
         pokemonJson = getPokemons()
 
-        for i in pokemonJson["pokemons"]:
-            attack = int(setNoneToZero(i["atk"]))
-            defense = int(setNoneToZero(i["def"]))
-            stamina = int(setNoneToZero(i["sta"]))
+        for i in pokemonJson['pokemons']:
+            attack = int(setNoneToZero(i['atk']))
+            defense = int(setNoneToZero(i['def']))
+            stamina = int(setNoneToZero(i['sta']))
             iv = sumIV(attack, defense, stamina)
 
-            if (i["pokemon_name"].lower() in pokemons) or float(iv) > 35 or i["pokemon_name"].lower() == 'unown':
-                if i["encounter_id"] not in discoveredList:
-                    disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
-                    move1 = getMoveName(str(57), moveList)
-                    move2 = getMoveName(str(i["move_2"]), moveList)
-                    discoveredList.append(i["encounter_id"])
-                    notifyDiscovery(i["pid"], i["pokemon_name"], i["latitude"],
-                    i["longitude"], i["atk"], i["def"],
-                    i["sta"], i["pokemon_rarity"],
-                    i["gender"], i["height"], i["weight"], i["cp"],
+            if (i['pokemon_name'].lower() in pokemons) or float(iv) > 35 or i['pokemon_name'].lower() == 'unown':
+                if i['encounter_id'] not in discoveredList:
+                    disappear_time = convertTimestampToTime(int(str(i['disappear_time'])[:-3]))
+                    move1 = getMoveName(str(i['move_1']), moveList)
+                    move2 = getMoveName(str(i['move_2']), moveList)
+                    discoveredList.append(i['encounter_id'])
+                    notifyDiscovery(i['pid'], i['pokemon_name'], i['latitude'],
+                    i['longitude'], i['atk'], i['def'],
+                    i['sta'], i['pokemon_rarity'],
+                    i['gender'], i['height'], i['weight'], i['cp'],
                     move1, move2, iv, disappear_time)
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
