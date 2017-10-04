@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import requests, time, smtplib, getpass, json, datetime
-from moves import getMoveName
 from config import getConfig
 from twitter import tweet
 from email.MIMEMultipart import MIMEMultipart
@@ -42,6 +41,18 @@ def addMailEnding(mail):
         return mail + "@gmail.com"
     else:
         return mail
+
+def getMoveName(move, moveList):
+    if move in moveList:
+        if moveList[move]['type']:
+            if moveList[move]['damage']:
+                return moveList[move]['name'] + '(' + moveList[move]['type'] +')' + ' ' + str(moveList[move]['damage'])
+            else:
+                return moveList[move]['name'] + '(' + moveList[move]['type'] +')'
+        else:
+            return moveList[move]['name'] + '(???)'
+    else:
+        return move
 
 def formatId (id):
     if len(id) == 1:
@@ -87,7 +98,11 @@ def formatPokemonsToList(string):
     return string
 
 def getPokemons():
-    url = "https://nomaps.me/raw_data?by=oslo&pokemon=true&pokestops=false&gyms=false&scanned=false&spawnpoints=false&swLat=59.86033318574186&swLng=10.358734130859377&neLat=60.01443251058505&neLng=11.319351196289062&alwaysperfect=true&_=1496124226747"
+    url = "https://nomaps.me/raw_data?by=oslo&&pokemon=true&pokestops=false&gyms=false&scanned=false&spawnpoints=false&swLat=59.69824204817713&swLng=10.259857177734377&neLat=60.02678442879232&neLng=11.000061035156252&alwaysperfect=true&raids=false"
+    return requests.get(url).json()
+
+def getMoves():
+    url = "https://nomaps.me/static/data/moves.min.json"
     return requests.get(url).json()
 
 def getPokemonTypes(typeList):
@@ -274,7 +289,7 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
     msg.attach(MIMEText(htmlemail, 'html'))
 
 
-    if float(iv) > 35 or name.lower() == "unown":
+    if float(iv) > 41 or name.lower() == "unown":
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
         print
         server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -323,6 +338,8 @@ password = getpass.getpass("Input password for " + addMailEnding(config['sending
 #List of pokemons that are discoverd so you won"t get spammed
 discoveredList = []
 
+moveList = getMoves()
+
 while True:
     print "Scanning..."
     try:
@@ -334,11 +351,11 @@ while True:
             stamina = int(setNoneToZero(i["sta"]))
             iv = sumIV(attack, defense, stamina)
 
-            if i["pokemon_name"].lower() in pokemons or iv == 45:
+            if (i["pokemon_name"].lower() in pokemons) or float(iv) > 35 or i["pokemon_name"].lower() == 'unown':
                 if i["encounter_id"] not in discoveredList:
                     disappear_time = convertTimestampToTime(int(str(i["disappear_time"])[:-3]))
-                    move1 = getMoveName(str(i["move_1"]))
-                    move2 = getMoveName(str(i["move_2"]))
+                    move1 = getMoveName(str(57), moveList)
+                    move2 = getMoveName(str(i["move_2"]), moveList)
                     discoveredList.append(i["encounter_id"])
                     notifyDiscovery(i["pid"], i["pokemon_name"], i["latitude"],
                     i["longitude"], i["atk"], i["def"],
