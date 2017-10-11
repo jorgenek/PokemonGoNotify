@@ -13,6 +13,7 @@ For å kjøre scriptet så må du installere disse pakkene:
 - pyOpenSSL
 - ndg-httpsclient
 - pyasn1
+- lxml
 
 Du må endre configen med følgende attributter:
 
@@ -22,4 +23,6 @@ Du må endre configen med følgende attributter:
 4. Mottakers epost-adresse. Trenger ikke å være gmail, men kan også være samme som avsender.  Den legger til "@gmail.com" automagisk hvis du ikke har '@' i strengen.
 5. For å poste til twitter så må du ha opprettet en app på https://apps.twitter.com/ og legge med access_token og andre nødvendige nøkler.
 
-Når du starter opp scriptet så spør den etter passordet til avsenderadressen. Den er nødvendig for å få tilgang til å kunne sende epost fra avsenderens adresse
+Når du starter opp scriptet pokemonnotifyscript.py så spør den etter passordet til avsenderadressen. Den er nødvendig for å få tilgang til å kunne sende epost fra avsenderens adresse
+
+Man kan også kjøre scriptet gyms.py som gir en liten oversikt over hvilke teams som kontrollerer flest gymer i Oslo og omegn.
