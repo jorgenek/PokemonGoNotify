@@ -54,7 +54,7 @@ weight, move1, move2, lat, lng, disappear, config):
         break
 
 def tweetGymStatus(cnt, total, config):
-    tweet = "Oversikt over gymer:"
+    tweet = "Av totalt " + str(total) + " gymer i Oslo:"
 
     for key, value in sorted(cnt.items(), key=lambda i: i[1], reverse=True):
         percent = "{0:.1f}".format(float(value) / total * 100) + "%"

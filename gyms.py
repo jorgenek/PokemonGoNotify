@@ -59,4 +59,4 @@ while True:
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching gyms. Retrying..." + bcolors.ENDC
 
-    time.sleep(180)
+    time.sleep(300)
