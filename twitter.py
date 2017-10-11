@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import tweepy, requests, os
+from collections import Counter
 
 class bcolors:
     HEADER = "\033[95m"
@@ -47,6 +48,22 @@ weight, move1, move2, lat, lng, disappear, config):
             else:
                 print "Unable to download image"
                 api.update_status(status=tweet)
+        except tweepy.TweepError as err:
+            print bcolors.WARNING + "Code: " + str(err.message[0]['code']) + " Message: " + err.message[0]['message'] + bcolors.ENDC
+            continue
+        break
+
+def tweetGymStatus(cnt, total, config):
+    tweet = "Oversikt over gymer:"
+
+    for key, value in sorted(cnt.items(), key=lambda i: i[1], reverse=True):
+        percent = "{0:.1f}".format(float(value) / total * 100) + "%"
+        tweet = tweet + '\n' + key + ': ' + str(value) + ' (' + percent + ')'
+
+    for i in range(0,10):
+        try:
+            api = twitter_api(config)
+            api.update_status(status=tweet)
         except tweepy.TweepError as err:
             print bcolors.WARNING + "Code: " + str(err.message[0]['code']) + " Message: " + err.message[0]['message'] + bcolors.ENDC
             continue

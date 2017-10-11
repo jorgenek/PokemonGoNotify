@@ -2,6 +2,8 @@
 
 import requests, time, smtplib, getpass, json, datetime
 from collections import Counter
+from config import getConfig
+from twitter import tweet, tweetGymStatus
 
 class bcolors:
     HEADER = "\033[95m"
@@ -32,20 +34,26 @@ def getTeamName(number):
 
 print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
 
+config = getConfig()
+
 while True:
     try:
         cnt = Counter()
         gymJson = getGyms()
+        totalGyms = len(gymJson['gyms'])
 
         for i in range(1000):
             if (str(i+1) in gymJson['gyms']):
                 teamName = getTeamName(gymJson['gyms'][str(i+1)]['team_id'])
                 cnt[teamName] += 1
 
-        print "Total gyms scanned: " + str(len(gymJson['gyms']))
+        print "Total gyms scanned: " + str(totalGyms)
         for key,value in sorted(cnt.items(), key=lambda i: i[1], reverse=True):
-            percent = "{0:.1f}".format(float(value) / len(gymJson['gyms']) * 100) + "%"
+            percent = "{0:.1f}".format(float(value) / totalGyms * 100) + "%"
             print key + ':', value, '(' + percent + ')'
+
+        if config['twitter']['consumer_key'] and config['twitter']['consumer_secret'] and config['twitter']['access_token'] and config['twitter']['access_token_secret']:
+            tweetGymStatus(cnt, totalGyms, config['twitter'])
         print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
 
     except (ValueError, requests.exceptions.RequestException):
