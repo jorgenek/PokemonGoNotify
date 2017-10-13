@@ -60,7 +60,7 @@ def tweetGymStatus(cnt, total, config):
         percent = "{0:.1f}".format(float(value) / total * 100) + "%"
         tweet = tweet + '\n' + key + ': ' + str(value) + ' (' + percent + ')'
 
-    for i in range(0,10):
+    for i in range(0,1):
         try:
             api = twitter_api(config)
             api.update_status(status=tweet)
