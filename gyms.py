@@ -42,7 +42,7 @@ while True:
         gymJson = getGyms()
         totalGyms = len(gymJson['gyms'])
 
-        for i in range(1000):
+        for i in range(100000):
             if (str(i+1) in gymJson['gyms']):
                 teamName = getTeamName(gymJson['gyms'][str(i+1)]['team_id'])
                 cnt[teamName] += 1
