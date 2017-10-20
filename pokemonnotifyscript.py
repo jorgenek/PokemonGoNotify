@@ -129,7 +129,7 @@ def checkValidUrl(url):
         return "https:" + url
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity,
-gender, cp, move1, move2, iv, disappear_time):
+gender, cp, move1, move2, iv, disappear_time, level):
 
     id = formatId(str(id))
     pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
@@ -155,6 +155,7 @@ gender, cp, move1, move2, iv, disappear_time):
     Move2: {move2}
     Gender: {gender}
     CP: {cp}
+    Level: {level}
     Disappears: {disappear}
     Rarity: {rarity}
     Distance: {distance}
@@ -163,7 +164,7 @@ gender, cp, move1, move2, iv, disappear_time):
     """.format(name=name, gender=genderSign, rarity=rarity, iv=ivtemp,
     attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2,
     distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
-    id=id) + bcolors.ENDC
+    id=id, level=level) + bcolors.ENDC
 
     msg = MIMEMultipart('alternative')
     msg["From"] = fromEmail
@@ -212,6 +213,9 @@ gender, cp, move1, move2, iv, disappear_time):
                                                 </tr
                                                 <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>IV:</b> {iv}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Level:</b> {level}</td>
                                                 </tr>
                                                 <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Attack:</b> {attack}</td>
@@ -265,7 +269,7 @@ gender, cp, move1, move2, iv, disappear_time):
     """.format(url=pokemonImageUrl, name=name, gender=genderSign, rarity=rarity,
     iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1,
     move2=move2, distance=pokemonDistance, lat=lat, lng=lng,
-    disappear=disappear_time, cp=cp, id=id)
+    disappear=disappear_time, cp=cp, id=id, level=level)
 
     msg.attach(MIMEText(body, "plain"))
 
@@ -285,7 +289,7 @@ gender, cp, move1, move2, iv, disappear_time):
     if config['twitter']['consumer_key'] and config['twitter']['consumer_secret'] and config['twitter']['access_token'] and config['twitter']['access_token_secret']:
         tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
         genderSign, move1, move2, lat, lng,
-        disappear_time, config['twitter'])
+        disappear_time, level, config['twitter'])
         print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
     cnt[name] += 1
@@ -330,12 +334,7 @@ while True:
         pokemonJson = getPokemons()
 
         for i in pokemonJson['pokemons']:
-            attack = int(setNoneToZero(i['atk']))
-            defense = int(setNoneToZero(i['def']))
-            stamina = int(setNoneToZero(i['sta']))
-            iv = sumIV(attack, defense, stamina)
-
-            if (i['pokemon_name'].lower() in pokemons and iv > 0) or float(iv) > 35 or i['pokemon_name'].lower() == 'unown':
+            if (i['pokemon_name'].lower() in pokemons) or i['iv'] > 35 or i['pokemon_name'].lower() == 'unown':
                 if i['encounter_id'] not in discoveredList:
                     disappear_time = convertTimestampToTime(int(str(i['disappear_time'])[:-3]))
                     move1 = getMoveName(str(i['move_1']), moveList)
@@ -345,7 +344,7 @@ while True:
                     i['longitude'], i['atk'], i['def'],
                     i['sta'], i['pokemon_rarity'],
                     i['gender'], i['cp'],
-                    move1, move2, iv, disappear_time)
+                    move1, move2, iv, disappear_time, i['level'])
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
