@@ -344,7 +344,7 @@ while True:
                     notifyDiscovery(i['pid'], i['pokemon_name'], i['latitude'],
                     i['longitude'], i['atk'], i['def'],
                     i['sta'], i['pokemon_rarity'],
-                    i['gender'] i['cp'],
+                    i['gender'], i['cp'],
                     move1, move2, iv, disappear_time)
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
