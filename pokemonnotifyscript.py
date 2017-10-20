@@ -80,11 +80,6 @@ def getGender(gender):
     else:
         return None
 
-def formatHeightWeight(value):
-    if value is not None:
-        value = float(value)
-        return "{0:.2f}".format(value)
-
 def sumIV(attack, defense, stamina):
     attack = setNoneToZero(attack)
     defense = setNoneToZero(defense)
@@ -134,7 +129,7 @@ def checkValidUrl(url):
         return "https:" + url
 
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity,
-gender, height, weight, cp, move1, move2, iv, disappear_time):
+gender, cp, move1, move2, iv, disappear_time):
 
     id = formatId(str(id))
     pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
@@ -144,8 +139,6 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
     pokemonImageUrl = resizeImage(pokemonImageUrl)
     pokemonImageUrl = checkValidUrl(pokemonImageUrl)
 
-    weight = formatHeightWeight(weight) + "kg" if weight is not None else None
-    height = formatHeightWeight(height) + "m" if height is not None else None
     genderSign = getGender(gender)
     ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + "%"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
@@ -161,17 +154,14 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
     Move1: {move1}
     Move2: {move2}
     Gender: {gender}
-    Height: {height}
-    Weight: {weight}
     CP: {cp}
     Disappears: {disappear}
     Rarity: {rarity}
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, gender=genderSign, height=height,
-    weight=weight, rarity=rarity, iv=ivtemp, attack=attack, defense=defense,
-    stamina=stamina, move1=move1, move2=move2,
+    """.format(name=name, gender=genderSign, rarity=rarity, iv=ivtemp,
+    attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2,
     distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
     id=id) + bcolors.ENDC
 
@@ -242,12 +232,6 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Move2:</b> {move2}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Height:</b> {height}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Weight:</b> {weight}</td>
-                                                </tr>
-                                                <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Rarity:</b> {rarity}</td>
                                                 </tr>
                                             </tbody></table>
@@ -278,11 +262,10 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
           </div>
       </body>
   </html>
-    """.format(url=pokemonImageUrl, name=name, gender=genderSign,
-    height=height, weight=weight, rarity=rarity, iv=ivtemp, attack=attack,
-    defense=defense, stamina=stamina, move1=move1, move2=move2,
-    distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
-    id=id)
+    """.format(url=pokemonImageUrl, name=name, gender=genderSign, rarity=rarity,
+    iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1,
+    move2=move2, distance=pokemonDistance, lat=lat, lng=lng,
+    disappear=disappear_time, cp=cp, id=id)
 
     msg.attach(MIMEText(body, "plain"))
 
@@ -301,8 +284,8 @@ gender, height, weight, cp, move1, move2, iv, disappear_time):
 
     if config['twitter']['consumer_key'] and config['twitter']['consumer_secret'] and config['twitter']['access_token'] and config['twitter']['access_token_secret']:
         tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
-        genderSign, height, weight, move1, move2, lat, lng,
-        disappear_time, config['twitter']);
+        genderSign, move1, move2, lat, lng,
+        disappear_time, config['twitter'])
         print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
     cnt[name] += 1
@@ -352,7 +335,7 @@ while True:
             stamina = int(setNoneToZero(i['sta']))
             iv = sumIV(attack, defense, stamina)
 
-            if (i['pokemon_name'].lower() in pokemons) or float(iv) > 35 or i['pokemon_name'].lower() == 'unown':
+            if (i['pokemon_name'].lower() in pokemons and iv > 0) or float(iv) > 35 or i['pokemon_name'].lower() == 'unown':
                 if i['encounter_id'] not in discoveredList:
                     disappear_time = convertTimestampToTime(int(str(i['disappear_time'])[:-3]))
                     move1 = getMoveName(str(i['move_1']), moveList)
@@ -361,7 +344,7 @@ while True:
                     notifyDiscovery(i['pid'], i['pokemon_name'], i['latitude'],
                     i['longitude'], i['atk'], i['def'],
                     i['sta'], i['pokemon_rarity'],
-                    i['gender'], i['height'], i['weight'], i['cp'],
+                    i['gender'] i['cp'],
                     move1, move2, iv, disappear_time)
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
