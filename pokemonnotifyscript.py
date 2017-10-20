@@ -62,12 +62,6 @@ def formatId (id):
     else:
         return id
 
-def setNoneToZero(value):
-    if value is None:
-        return 0
-    else:
-        return value
-
 def getGender(gender):
     if gender == "1":
         return "Male"
@@ -79,12 +73,6 @@ def getGender(gender):
         return "None"
     else:
         return None
-
-def sumIV(attack, defense, stamina):
-    attack = setNoneToZero(attack)
-    defense = setNoneToZero(defense)
-    stamina = setNoneToZero(stamina)
-    return attack + defense + stamina
 
 def formatPokemonsToList(string):
     string = string.split(",")
@@ -140,7 +128,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
     pokemonImageUrl = checkValidUrl(pokemonImageUrl)
 
     genderSign = getGender(gender)
-    ivtemp = "{0:.1f}".format((float(iv) / 45) * 100) + "%"
+    ivString = str(iv) + "%"
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     #pokemonTypes = getPokemonTypes(types)
@@ -161,7 +149,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
-    """.format(name=name, gender=genderSign, rarity=rarity, iv=ivtemp,
+    """.format(name=name, gender=genderSign, rarity=rarity, iv=ivString,
     attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2,
     distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
     id=id, level=level) + bcolors.ENDC
@@ -267,7 +255,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
       </body>
   </html>
     """.format(url=pokemonImageUrl, name=name, gender=genderSign, rarity=rarity,
-    iv=ivtemp, attack=attack, defense=defense, stamina=stamina, move1=move1,
+    iv=ivString, attack=attack, defense=defense, stamina=stamina, move1=move1,
     move2=move2, distance=pokemonDistance, lat=lat, lng=lng,
     disappear=disappear_time, cp=cp, id=id, level=level)
 
@@ -276,7 +264,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
     msg.attach(MIMEText(htmlemail, 'html'))
 
 
-    if float(iv) > 41 or name.lower() == "unown":
+    if (iv > 90 and level > 25) or name.lower() == "unown":
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
         print
         server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -287,7 +275,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
         server.quit()
 
     if config['twitter']['consumer_key'] and config['twitter']['consumer_secret'] and config['twitter']['access_token'] and config['twitter']['access_token_secret']:
-        tweet(pokemonImageUrl, id, name, ivtemp, attack, defense, stamina, cp,
+        tweet(pokemonImageUrl, id, name, ivString, attack, defense, stamina, cp,
         genderSign, move1, move2, lat, lng,
         disappear_time, level, config['twitter'])
         print bcolors.HEADER + "Tweeted" + bcolors.ENDC
@@ -334,7 +322,7 @@ while True:
         pokemonJson = getPokemons()
 
         for i in pokemonJson['pokemons']:
-            if (i['pokemon_name'].lower() in pokemons) or i['iv'] > 35 or i['pokemon_name'].lower() == 'unown':
+            if (i['pokemon_name'].lower() in pokemons and i['iv'] > 0) or i['iv'] > 81 or i['pokemon_name'].lower() == 'unown':
                 if i['encounter_id'] not in discoveredList:
                     disappear_time = convertTimestampToTime(int(str(i['disappear_time'])[:-3]))
                     move1 = getMoveName(str(i['move_1']), moveList)
