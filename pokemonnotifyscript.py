@@ -119,7 +119,7 @@ def checkValidUrl(url):
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity,
 gender, cp, move1, move2, iv, disappear_time, level):
 
-    level = float(level)
+    level = int(level)
     id = formatId(str(id))
     pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
     page = requests.get(pageurl)
@@ -158,7 +158,11 @@ gender, cp, move1, move2, iv, disappear_time, level):
     msg = MIMEMultipart('alternative')
     msg["From"] = fromEmail
     msg["To"] = toEmail
-    msg["Subject"] = name.upper() + " was discovered!"
+    if iv == 100:
+        msg["Subject"] = "PERFECT " + name.upper() + " was discovered!"
+    else:
+        msg["Subject"] = name.upper() + " was discovered!"
+
 
     body = """
     ID: {id}
