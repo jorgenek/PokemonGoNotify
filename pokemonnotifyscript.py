@@ -119,6 +119,7 @@ def checkValidUrl(url):
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity,
 gender, cp, move1, move2, iv, disappear_time, level):
 
+    level = float(level)
     id = formatId(str(id))
     pageurl = 'http://bulbapedia.bulbagarden.net/wiki/File:' + id + str(name) +'.png'
     page = requests.get(pageurl)
@@ -263,10 +264,8 @@ gender, cp, move1, move2, iv, disappear_time, level):
 
     msg.attach(MIMEText(htmlemail, 'html'))
 
-
     if (iv > 90 and level > 20) or level == 30 or iv == 100 or name.lower() == "unown":
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
-        print
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(fromEmail, password)
@@ -280,6 +279,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
         disappear_time, level, config['twitter'])
         print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
+    print
     cnt[name] += 1
     seenCount = len(discoveredList)
     print "Discovered pokemons so far is: " + str(seenCount)
