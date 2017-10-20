@@ -19,9 +19,6 @@ def getGyms():
     url = "https://nomaps.me/raw_data?by=oslo&&pokemon=false&pokestops=false&gyms=true&scanned=false&spawnpoints=false&swLat=59.69824204817713&swLng=10.259857177734377&neLat=60.02678442879232&neLng=11.000061035156252&alwaysperfect=true&raids=false"
     return requests.get(url).json()
 
-def convertTimestampToTime(timestamp):
-    return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S')
-
 def getTeamName(number):
   if (number == 1):
     return 'Mystic'
@@ -47,6 +44,7 @@ while True:
                 teamName = getTeamName(gymJson['gyms'][str(i+1)]['team_id'])
                 cnt[teamName] += 1
 
+        print time.strftime("%d. %b %Y %H:%M:%S")
         print "Total gyms scanned: " + str(totalGyms)
         for key,value in sorted(cnt.items(), key=lambda i: i[1], reverse=True):
             percent = "{0:.1f}".format(float(value) / totalGyms * 100) + "%"
