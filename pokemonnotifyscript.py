@@ -264,7 +264,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
     msg.attach(MIMEText(htmlemail, 'html'))
 
 
-    if (iv > 90 and level > 20) or level == 30 or name.lower() == "unown":
+    if (iv > 90 and level > 20) or level == 30 or iv == 100 or name.lower() == "unown":
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
         print
         server = smtplib.SMTP("smtp.gmail.com", 587)
