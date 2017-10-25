@@ -103,6 +103,15 @@ def getPokemonTypes(typeList):
 def convertTimestampToTime(timestamp):
     return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S')
 
+def getUnownShape(form):
+    url = "https://nomaps.me/static/data/unown.min.json"
+    unownShapes = requests.get(url).json()
+
+    if unownShapes:
+        return unownShapes[str(form)]
+    else:
+        return form
+
 def resizeImage(url):
     index = url.find('px-')
     if index >= 0:
@@ -116,8 +125,27 @@ def checkValidUrl(url):
     else:
         return "https:" + url
 
+def sendEmail(sex, name):
+    if (sex == 'Female'):
+        if (name == 'charmander'):
+            return True
+        if (name == 'squirtle'):
+            return True
+        if (name == 'aerodactyl'):
+            return True
+        if (name == 'eevee'):
+            return True
+        if (name == 'togetic'):
+            return True
+        if (name == 'flaaffy'):
+            return True
+        else:
+            return False
+    else:
+        return False
+
 def notifyDiscovery(id, name, lat, lng, attack, defense, stamina, rarity,
-gender, cp, move1, move2, iv, disappear_time, level):
+gender, cp, move1, move2, iv, disappear_time, level, form):
 
     level = int(level)
     id = formatId(str(id))
@@ -133,6 +161,9 @@ gender, cp, move1, move2, iv, disappear_time, level):
     pokemonDistance = haversine(float(latAnswear), float(lngAnswear), float(lat), float(lng))
     pokemonDistance = "{0:.2f}".format(pokemonDistance) + " km"
     #pokemonTypes = getPokemonTypes(types)
+
+    if name.lower() == 'unown':
+        form = getUnownShape(form)
 
     print time.strftime("%d. %b %Y %H:%M:%S")
     print bcolors.OKGREEN + """#{id} {name} was discovered with:
@@ -150,10 +181,11 @@ gender, cp, move1, move2, iv, disappear_time, level):
     Distance: {distance}
     Latitude: {lat}
     Longitude: {lng}
+    Form: {form}
     """.format(name=name, gender=genderSign, rarity=rarity, iv=ivString,
     attack=attack, defense=defense, stamina=stamina, move1=move1, move2=move2,
     distance=pokemonDistance, lat=lat, lng=lng, disappear=disappear_time, cp=cp,
-    id=id, level=level) + bcolors.ENDC
+    id=id, level=level, form=form) + bcolors.ENDC
 
     msg = MIMEMultipart('alternative')
     msg["From"] = fromEmail
@@ -231,6 +263,9 @@ gender, cp, move1, move2, iv, disappear_time, level):
                                                 <tr>
                                                     <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Rarity:</b> {rarity}</td>
                                                 </tr>
+                                                <tr>
+                                                    <td align="center" style="font-size:16px;line-height:25px;font-family:Helvetica,Arial,sans-serif;color:#d8d8d8"><b>Form:</b> {form}</td>
+                                                </tr>
                                             </tbody></table>
                                         </td>
                                     </tr>
@@ -262,13 +297,12 @@ gender, cp, move1, move2, iv, disappear_time, level):
     """.format(url=pokemonImageUrl, name=name, gender=genderSign, rarity=rarity,
     iv=ivString, attack=attack, defense=defense, stamina=stamina, move1=move1,
     move2=move2, distance=pokemonDistance, lat=lat, lng=lng,
-    disappear=disappear_time, cp=cp, id=id, level=level)
+    disappear=disappear_time, cp=cp, id=id, level=level, form=form)
 
     msg.attach(MIMEText(body, "plain"))
-
     msg.attach(MIMEText(htmlemail, 'html'))
 
-    if (iv > 90 and level > 20) or level == 30 or iv == 100 or name.lower() == "unown":
+    if (iv > 90 and level > 20) or level == 30 or iv == 100 or sendEmail(genderSign, name.lower()) or name.lower() == "unown":
         print bcolors.HEADER + "Sending email" + bcolors.ENDC
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
@@ -280,7 +314,7 @@ gender, cp, move1, move2, iv, disappear_time, level):
     if config['twitter']['consumer_key'] and config['twitter']['consumer_secret'] and config['twitter']['access_token'] and config['twitter']['access_token_secret']:
         tweet(pokemonImageUrl, id, name, ivString, attack, defense, stamina, cp,
         genderSign, move1, move2, lat, lng,
-        disappear_time, level, config['twitter'])
+        disappear_time, level, form, config['twitter'])
         print bcolors.HEADER + "Tweeted" + bcolors.ENDC
 
     print
@@ -336,7 +370,7 @@ while True:
                     i['longitude'], i['atk'], i['def'],
                     i['sta'], i['pokemon_rarity'],
                     i['gender'], i['cp'],
-                    move1, move2, i['iv'], disappear_time, i['level'])
+                    move1, move2, i['iv'], disappear_time, i['level'], i['form'])
     except (ValueError, requests.exceptions.RequestException):
         print bcolors.WARNING + "Error fetching pokemons. Retrying..." + bcolors.ENDC
 
