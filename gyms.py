@@ -5,6 +5,8 @@ from collections import Counter
 from config import getConfig
 from twitter import tweet, tweetGymStatus
 
+error = False
+
 class bcolors:
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
@@ -36,6 +38,7 @@ config = getConfig()
 while True:
     try:
         cnt = Counter()
+        error = False
         gymJson = getGyms()
         totalGyms = len(gymJson['gyms'])
 
@@ -54,6 +57,10 @@ while True:
         print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
 
     except (ValueError, requests.exceptions.RequestException):
+        error = True
         print bcolors.WARNING + "Error fetching gyms. Retrying..." + bcolors.ENDC
 
-    time.sleep(3600)
+    if error:
+        time.sleep(300)
+    else:
+        time.sleep(3600)
