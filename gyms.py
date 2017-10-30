@@ -38,13 +38,14 @@ config = getConfig()
 while True:
     try:
         cnt = Counter()
-        error = False
         gymJson = getGyms()
-        totalGyms = len(gymJson['gyms'])
+        totalGyms = 0
 
         for i in gymJson['gyms']:
-            teamName = getTeamName(i['team_id'])
-            cnt[teamName] += 1
+            if i['gym_id']:
+                teamName = getTeamName(i['team_id'])
+                cnt[teamName] += 1
+                totalGyms += 1
 
         print time.strftime("%d. %b %Y %H:%M:%S")
         print "Total gyms scanned: " + str(totalGyms)
@@ -57,10 +58,6 @@ while True:
         print bcolors.OKBLUE + "-----------------------------------------------------------------------" + bcolors.ENDC
 
     except (ValueError, requests.exceptions.RequestException):
-        error = True
-        print bcolors.WARNING + "Error fetching gyms. Retrying..." + bcolors.ENDC
+        print bcolors.WARNING + "Error fetching gyms" + bcolors.ENDC
 
-    if error:
-        time.sleep(300)
-    else:
-        time.sleep(3600)
+    time.sleep(3600)
