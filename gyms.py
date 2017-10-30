@@ -39,10 +39,9 @@ while True:
         gymJson = getGyms()
         totalGyms = len(gymJson['gyms'])
 
-        for i in range(100000):
-            if (str(i+1) in gymJson['gyms']):
-                teamName = getTeamName(gymJson['gyms'][str(i+1)]['team_id'])
-                cnt[teamName] += 1
+        for i in gymJson['gyms']:
+            teamName = getTeamName(i['team_id'])
+            cnt[teamName] += 1
 
         print time.strftime("%d. %b %Y %H:%M:%S")
         print "Total gyms scanned: " + str(totalGyms)
