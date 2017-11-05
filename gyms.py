@@ -42,7 +42,7 @@ while True:
         totalGyms = 0
 
         for i in gymJson['gyms']:
-            if i['gym_id']:
+            if i['gym_id'] and i['enabled']:
                 teamName = getTeamName(i['team_id'])
                 cnt[teamName] += 1
                 totalGyms += 1
